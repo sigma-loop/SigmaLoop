@@ -15,15 +15,17 @@ LambdaLAP/
 │   │   ├── config/       # Environment config
 │   │   ├── constants/    # Error codes, roles, supported languages
 │   │   ├── types/        # Shared TypeScript interfaces + Express augmentation
-│   │   ├── controllers/  # Request handlers
+│   │   ├── controllers/  # Request handlers (auth, courses, chat, AI generation, execution)
 │   │   ├── middlewares/  # Auth, rate limiting
-│   │   ├── models/       # Mongoose schemas (9 collections)
+│   │   ├── models/       # Mongoose schemas (12 collections)
 │   │   ├── routes/       # Express route definitions
-│   │   ├── utils/        # JSend helpers, query builder, DB connection
+│   │   ├── services/     # AI service layer (Gemini SDK)
+│   │   ├── utils/        # JSend helpers, query builder, DB connection, Judge0 mapper
 │   │   ├── scripts/      # Database seeding
 │   │   └── __tests__/    # Jest tests
 │   ├── Dockerfile        # Multi-stage Docker build
-│   └── docker-compose.yml  # API + MongoDB local stack
+│   ├── docker-compose.yml       # API + MongoDB local stack
+│   └── docker-compose.judge0.yml  # Judge0 code execution engine stack
 ├── Frontend/             # React 19 + TypeScript + Vite SPA client
 │   ├── src/
 │   │   ├── components/   # common/ (Navbar, ErrorBoundary, Skeletons), ui/, layouts/
@@ -52,6 +54,8 @@ LambdaLAP/
 - **Frontend**: SPA at `http://localhost:5173` (Vite dev server), communicates via Axios
 - **Database**: MongoDB with Mongoose ODM
 - **Auth**: JWT-based with Bearer tokens, 3 roles: STUDENT, INSTRUCTOR, ADMIN
+- **AI**: Google Gemini (`@google/generative-ai`) for chat mentorship and course/lesson generation
+- **Code Execution**: Judge0 CE sandbox (Docker, port 2358) for compiling and running student code
 
 ## Key Conventions
 
@@ -103,7 +107,7 @@ npm run lint         # Run ESLint
 npm run format       # Run Prettier
 ```
 
-## Data Models (9 Collections)
+## Data Models (12 Collections)
 
 | Model | Purpose | Key Relations |
 |-------|---------|---------------|
@@ -114,8 +118,11 @@ npm run format       # Run Prettier
 | Enrollment | User-Course join | User + Course (unique pair) |
 | LessonProgress | Lesson completion tracking | User + Lesson (unique pair) |
 | Submission | Code submissions | User + Challenge |
-| ChatThread | AI chat containers | Belongs to User |
+| ChatThread | AI chat containers (scoped: GENERAL/LESSON/COURSE) | Belongs to User |
 | ChatMessage | Messages in threads | Belongs to ChatThread |
+| GeneratedCourse | AI-generated courses | Created by User (instructor) |
+| GeneratedLesson | AI-generated lessons | Belongs to GeneratedCourse |
+| GeneratedChallenge | AI-generated challenges | Belongs to GeneratedLesson |
 
 ## API Endpoint Groups
 
@@ -128,6 +135,8 @@ npm run format       # Run Prettier
 | Lessons | `/api/v1/lessons` | Mixed |
 | Challenges | `/api/v1/challenges` | Mixed |
 | Execution | `/api/v1/execution` | Mixed (run=public, submit=auth) |
+| Chat | `/api/v1/chat` | Yes (AI mentorship threads & messages) |
+| AI Generation | `/api/v1/ai` | Yes (course/lesson generation via Gemini) |
 
 ## Environment Setup
 
@@ -138,6 +147,8 @@ DATABASE_URL=mongodb://localhost:27017/lambda_lap
 JWT_SECRET=<your-secret>
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
+GEMINI_API_KEY=<your-gemini-api-key>
+JUDGE0_DASHBOARD=http://localhost:2358
 ```
 
 Frontend requires a `.env` file (see `Frontend/.env.example`):
@@ -149,16 +160,19 @@ The constant `API_BASE_URL` in `Frontend/src/constants/index.ts` reads from `imp
 
 ### Docker (Full Stack)
 ```bash
-cd Backend && docker-compose up    # API + MongoDB
-cd Frontend && docker build -t lambda-lap-frontend .  # Nginx-served SPA
+cd Backend && docker-compose up                                    # API + MongoDB
+cd Backend && docker-compose -f docker-compose.judge0.yml up       # Judge0 code execution engine
+cd Frontend && docker build -t lambda-lap-frontend .               # Nginx-served SPA
 ```
 
 ## Important Notes for Agents
 
-1. **Code execution is a dummy** — `Backend/src/controllers/execution.controller.ts` returns mock results (70% pass rate). Real sandbox integration is pending.
-2. **Rate limiting is disabled** — Middleware exists but all limiters are pass-through in `Backend/src/middlewares/rateLimit.middleware.ts`.
-3. **Graduation Project folder is reference material** — Contains the original design docs, API contract (v3.0), database schema (PDF), UI mockups (PNG), and a Next.js prototype. Do NOT modify this folder for implementation work; use it as a design reference.
-4. **The Next.js prototype in Graduation Project is separate** — The actual implementation is in `Frontend/` (React + Vite), not the Next.js prototype.
-5. **Supported languages for challenges**: Python, C++, Java, JavaScript, TypeScript, Go, Rust.
-6. **Frontend uses Monaco Editor** for the code editing experience.
-7. **Frontend uses Tailwind CSS** with glass morphism design (`.glass-panel`, `.glass-card`).
+1. **Code execution uses Judge0** — `Backend/src/controllers/execution.controller.ts` sends code to a Judge0 CE sandbox (`docker-compose.judge0.yml`). Each test case is submitted via `POST /submissions?wait=true` and results are aggregated.
+2. **AI features use Google Gemini** — `Backend/src/services/ai.service.ts` provides chat mentorship (scoped to general/lesson/course) and structured course/lesson/challenge generation via `@google/generative-ai`. Requires `GEMINI_API_KEY`.
+3. **Rate limiting is disabled** — Middleware exists but all limiters are pass-through in `Backend/src/middlewares/rateLimit.middleware.ts`.
+4. **Graduation Project folder is reference material** — Contains the original design docs, API contract (v3.0), database schema (PDF), UI mockups (PNG), and a Next.js prototype. Do NOT modify this folder for implementation work; use it as a design reference.
+5. **The Next.js prototype in Graduation Project is separate** — The actual implementation is in `Frontend/` (React + Vite), not the Next.js prototype.
+6. **Supported languages for challenges**: Python, C++, Java, JavaScript, TypeScript, Go, Rust.
+7. **Frontend uses Monaco Editor** for the code editing experience.
+8. **Frontend uses Tailwind CSS** with glass morphism design (`.glass-panel`, `.glass-card`).
+9. **Generated content is stored separately** — AI-generated courses/lessons/challenges use their own collections (GeneratedCourse, GeneratedLesson, GeneratedChallenge), separate from manually created content.
