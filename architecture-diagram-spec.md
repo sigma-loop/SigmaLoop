@@ -2,6 +2,8 @@
 
 Use this document to generate a system architecture diagram for the university presentation.
 
+SigmaLoop is a **personalized AI tutor** for programming and mathematics. The mentor chat is the entry point; an async pipeline generates a per-user curriculum; PROGRAMMING challenges are graded by Judge0; MATH challenges are graded by an LLM that compares the student's LaTeX against a canonical solution.
+
 ---
 
 ## DIAGRAM LAYOUT (Top to Bottom, 4 Layers)
@@ -11,25 +13,26 @@ Use this document to generate a system architecture diagram for the university p
 LAYER 1: CLIENT LAYER (Top)
 =======================================================================
 
-  +-------------------------------------------------------+
-  |              USER'S BROWSER / DEVICE                   |
-  |                                                        |
-  |  +-------------------+  +------------------+           |
-  |  | React 19 SPA      |  | Monaco Code      |           |
-  |  | (TypeScript + Vite)|  | Editor           |           |
-  |  +-------------------+  +------------------+           |
-  |                                                        |
-  |  +-------------------+  +------------------+           |
-  |  | Tailwind CSS      |  | AI Chat Widget   |           |
-  |  | Glass UI          |  | (SigmaBot)       |           |
-  |  +-------------------+  +------------------+           |
-  |                                                        |
-  |  +---------------------------------------------+       |
-  |  | Auth Context (JWT Token in localStorage)     |       |
-  |  +---------------------------------------------+       |
-  +-------------------------------------------------------+
+  +---------------------------------------------------------+
+  |              USER'S BROWSER / DEVICE                     |
+  |                                                          |
+  |  +-------------------+  +------------------------+       |
+  |  | React 19 SPA      |  | Mentor Chat            |       |
+  |  | (TypeScript +Vite)|  | (primary entry point)  |       |
+  |  +-------------------+  +------------------------+       |
+  |                                                          |
+  |  +-------------------+  +------------------------+       |
+  |  | Monaco Editor     |  | LaTeX Input + KaTeX    |       |
+  |  | (PROGRAMMING)     |  | Preview (MATH)         |       |
+  |  +-------------------+  +------------------------+       |
+  |                                                          |
+  |  +-------------------+  +------------------------+       |
+  |  | Tailwind / Glass  |  | Auth Context (JWT      |       |
+  |  | UI                |  | in localStorage)       |       |
+  |  +-------------------+  +------------------------+       |
+  +---------------------------------------------------------+
               |
-              | HTTPS / REST API (JSON - JSend Format)
+              | HTTPS / REST API (JSend JSON)
               | Authorization: Bearer <JWT>
               v
 
@@ -37,13 +40,13 @@ LAYER 1: CLIENT LAYER (Top)
 LAYER 2: WEB SERVER / REVERSE PROXY
 =======================================================================
 
-  +-------------------------------------------------------+
-  |              NGINX (Production)                        |
-  |  - Serves static frontend files (HTML/JS/CSS)          |
-  |  - SPA routing (all paths -> index.html)               |
-  |  - Asset caching (1 year for static files)             |
-  |  - Reverse proxy API requests to backend               |
-  +-------------------------------------------------------+
+  +---------------------------------------------------------+
+  |              NGINX (Production)                          |
+  |  - Serves static frontend files (HTML/JS/CSS)            |
+  |  - SPA routing (all paths -> index.html)                 |
+  |  - Asset caching (1 year for static files)               |
+  |  - Reverse proxy API requests to backend                 |
+  +---------------------------------------------------------+
               |
               | HTTP (port 80 -> port 4000)
               v
@@ -52,37 +55,41 @@ LAYER 2: WEB SERVER / REVERSE PROXY
 LAYER 3: APPLICATION SERVER (Middle)
 =======================================================================
 
-  +-------------------------------------------------------+
-  |              NODE.JS + EXPRESS (TypeScript)             |
-  |              Port 4000 — /api/v1/*                     |
-  |                                                        |
-  |  MIDDLEWARE PIPELINE:                                   |
-  |  +----------+  +-----------+  +--------+  +---------+ |
-  |  |   CORS   |->| Body      |->|  Auth  |->| Request | |
-  |  |  Filter  |  | Parser    |  | (JWT)  |  | Logger  | |
-  |  +----------+  +-----------+  +--------+  +---------+ |
-  |                                                        |
-  |  ROUTE HANDLERS:                                       |
-  |  +---------------------------------------------------+ |
-  |  |                                                   | |
-  |  |  /auth          - Register, Login, Get Profile    | |
-  |  |  /users         - User management, enrollments    | |
-  |  |  /courses       - CRUD courses                    | |
-  |  |  /lessons       - CRUD lessons                    | |
-  |  |  /challenges    - CRUD challenges                 | |
-  |  |  /execution     - Run code, Submit solutions      | |
-  |  |  /chat          - AI chat threads & messages      | |
-  |  |  /ai            - AI course/lesson generation     | |
-  |  |                                                   | |
-  |  +---------------------------------------------------+ |
-  |                                                        |
-  |  SERVICES:                                             |
-  |  +-----------------+  +--------------------+           |
-  |  | Auth Service    |  | AI Service         |           |
-  |  | (bcrypt + JWT)  |  | (Gemini SDK)       |           |
-  |  +-----------------+  +--------------------+           |
-  +-------------------------------------------------------+
-         |                    |                    |
+  +---------------------------------------------------------+
+  |              NODE.JS + EXPRESS (TypeScript)              |
+  |              Port 4000 — /api/v1/*                       |
+  |                                                          |
+  |  MIDDLEWARE PIPELINE:                                    |
+  |  +----------+  +-----------+  +--------+  +---------+    |
+  |  |   CORS   |->| Body      |->|  Auth  |->| Request |    |
+  |  |  Filter  |  | Parser    |  | (JWT)  |  | Logger  |    |
+  |  +----------+  +-----------+  +--------+  +---------+    |
+  |                                                          |
+  |  ROUTE HANDLERS:                                         |
+  |  +-----------------------------------------------------+ |
+  |  | /auth         - Register, Login, Profile            | |
+  |  | /users        - User account                        | |
+  |  | /chat         - Mentor chat threads & messages      | |
+  |  | /curriculum   - Request generation, poll job status | |
+  |  | /courses      - READ-ONLY: list user's courses      | |
+  |  | /lessons      - READ-ONLY                           | |
+  |  | /challenges   - READ-ONLY                           | |
+  |  | /execution    - PROGRAMMING: run + submit (Judge0)  | |
+  |  | /math         - MATH: submit LaTeX -> LLM grader    | |
+  |  | /admin        - ADMIN-only ops                      | |
+  |  +-----------------------------------------------------+ |
+  |                                                          |
+  |  SERVICES:                                               |
+  |  +-----------------+  +--------------------+             |
+  |  | Auth Service    |  | AI Service         |             |
+  |  | (bcrypt + JWT)  |  | (AIClient -> Gemini)|            |
+  |  +-----------------+  +--------------------+             |
+  |  +-----------------------+  +--------------------+       |
+  |  | Curriculum Worker     |  | Judge0 Service     |       |
+  |  | (drains job queue,    |  | (HTTP wrapper)     |       |
+  |  | runs async generation)|  |                    |       |
+  |  +-----------------------+  +--------------------+       |
+  +---------------------------------------------------------+
          |                    |                    |
          v                    v                    v
 
@@ -93,21 +100,26 @@ LAYER 4: EXTERNAL SERVICES & DATA (Bottom)
 +----------------+    +------------------+    +--------------------+
 |   MongoDB 7    |    | Google Gemini    |    | Judge0 CE          |
 |   Database     |    | AI API           |    | Code Execution     |
-|                |    |                  |    | Engine              |
-| 13 Collections:|    | Model:           |    |                    |
+|                |    |                  |    | Engine             |
+| 9 Collections: |    | Model:           |    |                    |
 | - User         |    |  gemini-2.5-flash|    | +----------------+ |
-| - Course       |    |                  |    | | Judge0 Server  | |
-| - Lesson       |    | Features:        |    | | (port 2358)    | |
-| - Challenge    |    | - Chat responses |    | +----------------+ |
-| - Enrollment   |    | - Course gen     |    | | Judge0 Workers | |
-| - LessonProg.  |    | - Lesson gen     |    | | (4 processes)  | |
-| - Submission   |    | - Challenge gen  |    | +----------------+ |
-| - ChatThread   |    |                  |    | | PostgreSQL     | |
-| - ChatMessage  |    |                  |    | | (Judge0 DB)    | |
-| - GenCourse    |    |                  |    | +----------------+ |
-| - GenLesson    |    |                  |    | | Redis          | |
-| - GenChallenge |    |                  |    | | (Job Queue)    | |
-+----------------+    +------------------+    +--------------------+
+|   (STUDENT|    |    |                  |    | | Judge0 Server  | |
+|    ADMIN)      |    | Features:        |    | | (port 2358)    | |
+| - ChatThread   |    | - Mentor chat    |    | +----------------+ |
+| - ChatMessage  |    | - Course gen     |    | | Judge0 Workers | |
+| - CurriculumJob|    | - Lesson gen     |    | | (4 processes,  | |
+| - Course       |    | - Challenge gen  |    | |  privileged)   | |
+|   (per user)   |    |   (incl. tests)  |    | +----------------+ |
+| - Lesson       |    | - Math grading   |    | | PostgreSQL     | |
+| - Challenge    |    |   (LaTeX verdict)|    | | (Judge0 DB)    | |
+|   kind:        |    |                  |    | +----------------+ |
+|    PROGRAMMING |    |                  |    | | Redis          | |
+|    | MATH      |    |                  |    | | (Resque queue) | |
+| - Submission   |    |                  |    | +----------------+ |
+|   (polymorphic |    |                  |    +--------------------+
+|    by kind)    |    |                  |
+| - LessonProg.  |    |                  |
++----------------+    +------------------+
    Port 27017           External Cloud           Port 2358
    (Docker volume)      (googleapis.com)         (Docker network)
 ```
@@ -129,126 +141,135 @@ LAYER 4: EXTERNAL SERVICES & DATA (Bottom)
 ### Express -> MongoDB
 - **Protocol:** MongoDB Wire Protocol (Mongoose ODM)
 - **Port:** 27017
-- **What flows:** All CRUD operations — users, courses, lessons, challenges, submissions, chat history, AI-generated content
+- **What flows:** All CRUD — users, chat threads, curriculum jobs, generated courses/lessons/challenges, submissions, lesson progress. Per-user ownership is enforced on every read.
 - **Connection:** Persistent connection pool via `mongoose.connect()`
 
 ### Express -> Google Gemini API
 - **Protocol:** HTTPS (external)
 - **Auth:** API key (`GEMINI_API_KEY`)
 - **What flows:**
-  1. **Chat:** System prompt + conversation history + user message -> AI response text
-  2. **Course Generation:** User prompt + difficulty -> Full course JSON (title, description, lessons with challenges)
-  3. **Lesson Generation:** Course context + prompt -> Lesson markdown + challenges JSON
-- **SDK:** `@google/generative-ai` v0.24.1
+  1. **Mentor chat (sync):** scoped system prompt + conversation history + user message -> AI response.
+  2. **Curriculum generation (async):** learning goals JSON -> course outline JSON; lesson stub -> lesson markdown + challenge specs; challenge spec -> problem statement + (for PROGRAMMING) reference solution + test cases or (for MATH) canonical LaTeX + grading rubric.
+  3. **Math grading:** problem + canonical LaTeX + student LaTeX -> structured verdict { correct, equivalentForm, rationale, confidence }.
+- **SDK:** `@google/generative-ai` — wrapped behind the internal `AIClient` interface so the provider is swappable.
 
 ### Express -> Judge0 API
 - **Protocol:** HTTP (internal Docker network)
 - **Port:** 2358
 - **What flows:**
-  1. **Request:** Source code + language ID + stdin + expected output
-  2. **Response:** Status (accepted/wrong/error) + stdout + stderr + execution time + memory usage
-- **Supported Languages (7):** Python, C++, Java, JavaScript, TypeScript, Go, Rust
+  1. **Request:** source code + language ID + AI-generated stdin + expected stdout (per test case).
+  2. **Response:** status (accepted / wrong / error / timeout) + stdout + stderr + execution time + memory usage.
+- **Supported Languages (7):** Python, C++, Java, JavaScript, TypeScript, Go, Rust.
 
 ---
 
 ## DATA FLOW DIAGRAMS (Key User Journeys)
 
-### Flow 1: Student Solves a Challenge
+### Flow 1: Student Talks to the Mentor and Requests a Curriculum
+
+```
+Student opens /mentor and types: "I want to learn linear algebra
+                                  to prepare for ML"
+        |
+        v
+Frontend POST /api/v1/chat/threads/:id/messages
+        |
+        v
+Backend calls Gemini (mentor chat, scope: GENERAL)
+  -> Returns a reply that proposes a curriculum
+        |
+        v
+Student clicks "Generate this curriculum"
+        |
+        v
+Frontend POST /api/v1/curriculum/request { threadId }
+        |
+        v
+Backend creates CurriculumJob (status: PENDING),
+  returns jobId immediately
+        |
+        v
+Curriculum worker picks up job:
+  - Gemini: deduce learning goals from chat history
+  - Gemini: generate course outline (lesson stubs)
+  - For each lesson:
+      - Gemini: lesson markdown body
+      - For each challenge spec:
+          - kind PROGRAMMING -> Gemini: prompt + reference solution + test cases
+          - kind MATH        -> Gemini: problem LaTeX + canonical LaTeX + rubric
+  - Writes Course, Lesson, Challenge documents to MongoDB
+  - Sets job status to READY
+        |
+        v
+Frontend polls GET /api/v1/curriculum/jobs/:id (useCurriculumJob hook)
+  -> Detects READY -> Navigates to the new course
+```
+
+### Flow 2: Student Solves a PROGRAMMING Challenge
+
 ```
 Student writes code in Monaco Editor
         |
         v
-Frontend sends POST /api/v1/execution/submit
-  { code, language, challengeId }
+Frontend POST /api/v1/execution/submit
+  { challengeId, code, language }
         |
         v
-Backend fetches Challenge from MongoDB
-  (gets test cases: public + hidden)
+Backend loads Challenge from MongoDB
+  - Asserts kind === 'PROGRAMMING'
+  - Asserts user owns the parent course
+  - Loads AI-generated test cases
         |
         v
-Backend sends code to Judge0 (one request per test case)
+For each test case:
   POST http://judge0:2358/submissions?wait=true
-        |
-        v
-Judge0 compiles & runs code in sandbox
-  Returns: { status, stdout, stderr, time, memory }
+  -> { status, stdout, stderr, time, memory }
         |
         v
 Backend aggregates results
-  - All passed? -> Mark lesson complete, award +50 XP
-  - Save Submission record to MongoDB
+  - All passed? -> Mark lesson complete, award XP
+  - Save Submission record (kind: PROGRAMMING)
         |
         v
-Frontend displays results
-  (pass/fail per test case, execution time, memory)
+Frontend displays per-test-case results
+  (pass/fail, execution time, memory)
 ```
 
-### Flow 2: Student Chats with AI Mentor
-```
-Student types message in ChatWidget
-        |
-        v
-Frontend sends POST /api/v1/chat/threads/:id/messages
-  { content: "Explain Big O Notation" }
-        |
-        v
-Backend builds context-aware system prompt:
-  - Student's role & level
-  - Current scope (GENERAL / LESSON / COURSE)
-  - If LESSON: includes lesson content + challenge details
-  - If COURSE: includes course structure
-        |
-        v
-Backend fetches last 20 messages from MongoDB
-  (conversation history)
-        |
-        v
-Backend calls Gemini API via ai.service.ts
-  model.startChat({ history, systemInstruction })
-  chat.sendMessage(userMessage)
-        |
-        v
-Gemini returns AI response text
-        |
-        v
-Backend saves both messages to MongoDB
-  (UserMessage + AssistantMessage in ChatMessage collection)
-        |
-        v
-Frontend renders response with:
-  - Markdown formatting
-  - Code syntax highlighting
-  - LaTeX math rendering (KaTeX)
-```
+### Flow 3: Student Solves a MATH Challenge
 
-### Flow 3: AI Generates a Full Course
 ```
-Instructor enters prompt: "Python for Data Science"
-  + selects difficulty: Intermediate
+Student writes their solution in LaTeX
+  - KaTeX preview pane renders it live
         |
         v
-Frontend sends POST /api/v1/ai/generate-course
-  { prompt, difficulty }
+Frontend POST /api/v1/math/submit
+  { challengeId, latex }
         |
         v
-Backend calls Gemini API with structured prompt
-  - Requests: course title, description, tags, 3-5 lessons
-  - Each lesson: title, markdown content, 1-2 challenges
-  - Each challenge: starter code (7 langs), solution code, test cases
-  - Response format: application/json
+Backend loads Challenge from MongoDB
+  - Asserts kind === 'MATH'
+  - Asserts user owns the parent course
         |
         v
-Gemini returns structured JSON
+Backend calls aiService.gradeMath({
+  problem: challenge.problemLatex,
+  canonical: challenge.canonicalSolutionLatex,
+  rubric: challenge.gradingRubric,
+  studentLatex: req.body.latex,
+})
         |
         v
-Backend parses & saves to MongoDB:
-  - GeneratedCourse document
-  - GeneratedLesson documents (linked to course)
-  - GeneratedChallenge documents (linked to lessons)
+Gemini returns structured JSON:
+  { correct, equivalentForm, rationale, confidence }
         |
         v
-Frontend navigates to generated course view
-  (student can browse lessons and solve challenges immediately)
+Backend saves Submission (kind: MATH)
+  - If confidence < 0.7 -> status = PENDING_REVIEW
+        |
+        v
+Frontend renders verdict panel
+  - Correct / Incorrect / Pending review
+  - LLM's rationale rendered with Markdown + KaTeX
 ```
 
 ---
@@ -257,33 +278,37 @@ Frontend navigates to generated course view
 
 ```
 +----------------------------------------------------------+
-|                    HOST MACHINE                           |
-|                                                           |
-|  docker-compose.yml:                                      |
-|  +-------------------+    +-------------------+           |
-|  |   api             |    |   mongo           |           |
-|  |   Node.js:4000    |--->|   MongoDB:27017   |           |
-|  |   (Express app)   |    |   (mongo_data vol)|           |
-|  +-------------------+    +-------------------+           |
-|                                                           |
-|  docker-compose.judge0.yml:                               |
-|  +-------------------+    +-------------------+           |
-|  | judge0-server     |    | judge0-workers    |           |
-|  | API:2358          |    | (4 processes)     |           |
-|  +-------------------+    +-------------------+           |
-|  +-------------------+    +-------------------+           |
-|  | judge0-db         |    | judge0-redis      |           |
-|  | PostgreSQL        |    | Redis (queue)     |           |
-|  +-------------------+    +-------------------+           |
-|                                                           |
-|  Frontend Dockerfile:                                     |
-|  +-------------------+                                    |
-|  |   nginx           |                                    |
-|  |   Static:80       |                                    |
-|  |   (serves SPA)    |                                    |
-|  +-------------------+                                    |
+|                    HOST MACHINE                          |
+|                                                          |
+|  docker-compose.yml:                                     |
+|  +-------------------+    +-------------------+          |
+|  |   api             |    |   mongo           |          |
+|  |   Node.js:4000    |--->|   MongoDB:27017   |          |
+|  |   + curriculum    |    |   (mongo_data vol)|          |
+|  |     worker        |    |                   |          |
+|  +-------------------+    +-------------------+          |
+|                                                          |
+|  docker-compose.judge0.yml:                              |
+|  +-------------------+    +-------------------+          |
+|  | judge0-server     |    | judge0-workers    |          |
+|  | API:2358          |    | (4 processes,     |          |
+|  | (privileged)      |    |  privileged)      |          |
+|  +-------------------+    +-------------------+          |
+|  +-------------------+    +-------------------+          |
+|  | judge0-db         |    | judge0-redis      |          |
+|  | PostgreSQL        |    | Redis (queue)     |          |
+|  +-------------------+    +-------------------+          |
+|                                                          |
+|  Frontend Dockerfile:                                    |
+|  +-------------------+                                   |
+|  |   nginx           |                                   |
+|  |   Static:80       |                                   |
+|  |   (serves SPA)    |                                   |
+|  +-------------------+                                   |
 +----------------------------------------------------------+
 ```
+
+The production deployment (AWS) hoists the curriculum worker into Step Functions + Lambda and the math grader into its own Lambda — see `Hosting SigmaLoop/README.md` for the full proposal.
 
 ---
 
@@ -305,12 +330,12 @@ Frontend navigates to generated course view
 - Layer labels: Bold caps, 18px
 
 ### Layout Tips:
-- Use rounded rectangles for services
-- Use cylinders for databases
-- Use cloud shapes for external APIs (Gemini)
-- Use arrows with labels describing what data flows
-- Keep it horizontal or top-to-bottom (top-to-bottom preferred for presentations)
-- Add small icons/logos where possible (React, Node.js, MongoDB, Google Gemini logos)
+- Rounded rectangles for services.
+- Cylinders for databases.
+- Cloud shape for external APIs (Gemini).
+- Arrows labeled with the data that flows.
+- Highlight the **two grading paths** (Judge0 for PROGRAMMING, Gemini for MATH) — they're the most distinctive part of the architecture.
+- Highlight the **async generation pipeline** (curriculum worker pulling from CurriculumJob) — this is what makes the experience personalized.
 
 ---
 
@@ -333,11 +358,14 @@ If the full diagram is too detailed for the professors, use this simplified vers
 +--+------+------+--+
    |      |      |
    v      v      v
-+----+ +-----+ +-------+
-| DB | | AI  | | Code  |
-|    | |Tutor| | Runner|
-+----+ +-----+ +-------+
-MongoDB  Gemini   Judge0
++----+ +-------+ +--------+
+| DB | |  AI   | |  Code  |
+|    | | Tutor | | Runner |
++----+ +-------+ +--------+
+MongoDB Gemini    Judge0
+         |          |
+   chat, gen,    runs AI-generated
+   math grading  test cases
 ```
 
-This simplified version has 3 layers and 3 backend services — clean enough for a 30-second explanation.
+Three layers, three backend services — clean enough for a 30-second explanation. The takeaway slide: *"Every student gets their own AI-generated curriculum, with Judge0 grading programming and Gemini grading math."*

@@ -1,27 +1,36 @@
-# Lambda LAP - Project Root
+# SigmaLoop — Project Root
 
-## Project Overview
+## Product Vision
 
-Lambda LAP (Learning and Practice) is a full-stack educational platform for learning programming. It features interactive code execution, course management, AI-powered mentorship, and a challenge system with automated grading.
+**SigmaLoop — "Master the Logic behind the Code"** is a **personalized AI tutor** for programming and mathematics. Every learner starts by talking to a mentor chatbot; the mentor deduces what they need; the system then generates a **personalized curriculum** (course → lessons → challenges → test cases / canonical solutions) tailored to that specific learner.
 
-**Brand Name:** SigmaLoop — "Master the Logic behind the Code"
+There are no instructor-authored courses, no public catalog, no contests. Every course, lesson, challenge, and test case in the system was produced by the AI generation pipeline for a specific user.
+
+### Two Kinds of Challenges
+
+| Kind | Authoring | Grading |
+|---|---|---|
+| **PROGRAMMING** | AI generates prompt + reference solution + test cases | Judge0 sandbox executes the user's code against the AI-generated test cases |
+| **MATH** | AI generates problem (LaTeX) + canonical solution (LaTeX) + grading rubric | The user's LaTeX submission is sent to Gemini with the problem and canonical solution; Gemini returns a structured verdict |
+
+This split is deliberate: programming grading stays deterministic (Judge0), and LLM judgement is confined to math equivalence — the place where deterministic grading is genuinely brittle.
 
 ## Repository Structure
 
 ```
-LambdaLAP/
+SigmaLoop/
 ├── Backend/              # Node.js + Express + TypeScript API server (MongoDB)
 │   ├── src/
 │   │   ├── config/       # Environment config
-│   │   ├── constants/    # Error codes, roles, supported languages
+│   │   ├── constants/    # Error codes, roles, supported languages, challenge kinds
 │   │   ├── types/        # Shared TypeScript interfaces + Express augmentation
-│   │   ├── controllers/  # Request handlers (auth, courses, chat, AI generation, execution)
+│   │   ├── controllers/  # Request handlers (auth, mentor chat, curriculum, execution, math)
 │   │   ├── middlewares/  # Auth, rate limiting
-│   │   ├── models/       # Mongoose schemas (12 collections)
+│   │   ├── models/       # Mongoose schemas (see "Data Models")
 │   │   ├── routes/       # Express route definitions
-│   │   ├── services/     # AI service layer (Gemini SDK)
+│   │   ├── services/     # AI service layer (Gemini SDK) — chat, generation, math grading
 │   │   ├── utils/        # JSend helpers, query builder, DB connection, Judge0 mapper
-│   │   ├── scripts/      # Database seeding
+│   │   ├── scripts/      # Database seeding (for dev only)
 │   │   └── __tests__/    # Jest tests
 │   ├── Dockerfile        # Multi-stage Docker build
 │   ├── docker-compose.yml       # API + MongoDB local stack
@@ -33,29 +42,26 @@ LambdaLAP/
 │   │   ├── contexts/     # AuthContext (global auth state)
 │   │   ├── hooks/        # useDebounce, useLocalStorage, useClickOutside
 │   │   ├── utils/        # cn() class merge, formatters (date, number, string)
-│   │   ├── pages/        # Page components by feature
+│   │   ├── pages/        # Mentor (entry point), MyCourses, Lesson, Auth, Admin
 │   │   ├── services/     # Axios API client + service modules
 │   │   └── types/        # API response interfaces
 │   ├── Dockerfile        # Multi-stage Docker build (nginx)
 │   └── nginx.conf        # SPA routing + static asset caching
-├── Graduation Project/   # Design docs, UI mockups, Next.js prototype, API contract
-├── .editorconfig         # Editor settings (shared)
-├── .cursorrules          # Cursor AI context
-├── .windsurfrules        # Windsurf AI context
-├── .clinerules           # Cline AI context
-├── .aider.conf.yml       # Aider AI config
-├── .github/copilot-instructions.md  # GitHub Copilot context
+├── Hosting Judge/        # AWS hosting proposal — Repovive (reference)
+├── Hosting SigmaLoop/    # AWS hosting proposal — SigmaLoop (this repo's hosting plan)
+├── Graduation Project/   # Original design docs (reference material only)
 └── CLAUDE.md             # This file
 ```
 
 ## Architecture
 
-- **Backend**: REST API at `http://localhost:4000/api/v1` using JSend response format
-- **Frontend**: SPA at `http://localhost:5173` (Vite dev server), communicates via Axios
-- **Database**: MongoDB with Mongoose ODM
-- **Auth**: JWT-based with Bearer tokens, 3 roles: STUDENT, INSTRUCTOR, ADMIN
-- **AI**: Google Gemini (`@google/generative-ai`) for chat mentorship and course/lesson generation
-- **Code Execution**: Judge0 CE sandbox (Docker, port 2358) for compiling and running student code
+- **Backend**: REST API at `http://localhost:4000/api/v1` using JSend response format.
+- **Frontend**: SPA at `http://localhost:5173` (Vite dev server), Axios to the API.
+- **Database**: MongoDB with Mongoose ODM.
+- **Auth**: JWT-based with Bearer tokens, two roles: **STUDENT, ADMIN**.
+- **AI**: Google Gemini (`@google/generative-ai`) for mentor chat, async curriculum generation, and math grading. All Gemini calls go through a single `AIClient` interface so the provider is swappable.
+- **Code execution**: Judge0 CE sandbox (Docker, port 2358) for programming challenges. Test cases are AI-generated and run via `POST /submissions?wait=true`.
+- **Async generation pipeline**: A curriculum request from the mentor chat enqueues a `CurriculumJob`; a worker processes it and writes `Course`, `Lesson`, `Challenge` documents. The chat is non-blocking — the user is notified when the curriculum is ready.
 
 ## Key Conventions
 
@@ -69,20 +75,20 @@ All API responses follow JSend:
 ```
 
 ### TypeScript
-- Both Backend and Frontend use strict TypeScript
-- Backend: CommonJS output (ES2020+)
-- Frontend: ESM with Vite
+- Both Backend and Frontend use strict TypeScript.
+- Backend: CommonJS output (ES2020+).
+- Frontend: ESM with Vite.
 
 ### Code Style
-- **Backend**: ESLint Standard + TypeScript, Prettier (single quotes, no trailing commas, 100 char width)
-- **Frontend**: ESLint recommended + TypeScript, Prettier (double quotes, trailing commas es5, 80 char width)
-- Both use Husky pre-commit hooks for lint-staged
+- **Backend**: ESLint Standard + TypeScript, Prettier (single quotes, no trailing commas, 100 char width).
+- **Frontend**: ESLint recommended + TypeScript, Prettier (double quotes, trailing commas es5, 80 char width).
+- Both use Husky pre-commit hooks for lint-staged.
 
 ### Naming Conventions
-- Files: `camelCase.ts` for utils, `PascalCase.tsx` for React components
-- Backend models: `PascalCase.ts` (e.g., `User.ts`, `Course.ts`)
-- Routes: `kebab-case.routes.ts` (e.g., `auth.routes.ts`)
-- Controllers: `kebab-case.controller.ts`
+- Files: `camelCase.ts` for utils, `PascalCase.tsx` for React components.
+- Backend models: `PascalCase.ts` (e.g., `User.ts`, `Course.ts`).
+- Routes: `kebab-case.routes.ts` (e.g., `auth.routes.ts`).
+- Controllers: `kebab-case.controller.ts`.
 
 ## Quick Commands
 
@@ -93,7 +99,7 @@ npm run dev          # Start dev server (nodemon + ts-node)
 npm run build        # Compile TypeScript to dist/
 npm start            # Run production build
 npm test             # Run Jest tests
-npm run seed         # Seed database with sample data
+npm run seed         # Seed a sample STUDENT user (no manual content)
 npm run lint:fix     # Fix linting issues
 ```
 
@@ -107,43 +113,67 @@ npm run lint         # Run ESLint
 npm run format       # Run Prettier
 ```
 
-## Data Models (12 Collections)
+## Data Models
+
+Every course in SigmaLoop is owned by one user — the learner it was generated for. There is no shared catalog.
 
 | Model | Purpose | Key Relations |
 |-------|---------|---------------|
-| User | Accounts with roles & stats | - |
-| Course | Learning courses | Has many Lessons |
-| Lesson | Course content (markdown) | Belongs to Course, has Challenges |
-| Challenge | Coding challenges | Belongs to Lesson |
-| Enrollment | User-Course join | User + Course (unique pair) |
-| LessonProgress | Lesson completion tracking | User + Lesson (unique pair) |
-| Submission | Code submissions | User + Challenge |
-| ChatThread | AI chat containers (scoped: GENERAL/LESSON/COURSE) | Belongs to User |
-| ChatMessage | Messages in threads | Belongs to ChatThread |
-| GeneratedCourse | AI-generated courses | Created by User (instructor) |
-| GeneratedLesson | AI-generated lessons | Belongs to GeneratedCourse |
-| GeneratedChallenge | AI-generated challenges | Belongs to GeneratedLesson |
+| User | Account with role STUDENT \| ADMIN and stats | - |
+| ChatThread | Mentor-chat container, scoped GENERAL \| COURSE \| LESSON | Belongs to User |
+| ChatMessage | Messages in threads (USER or ASSISTANT) | Belongs to ChatThread |
+| CurriculumJob | Tracks an async curriculum-generation job | Triggered by ChatThread, owned by User |
+| Course | Personalized course (status: PENDING / GENERATING / READY / FAILED) | Owned by User, produced by a CurriculumJob |
+| Lesson | Generated lesson (markdown body) | Belongs to Course |
+| Challenge | Generated challenge with `kind: 'PROGRAMMING' \| 'MATH'` | Belongs to Lesson |
+| Submission | A user's attempt at a Challenge (polymorphic by kind) | User + Challenge |
+| LessonProgress | Lesson completion state | User + Lesson (unique pair) |
+
+### Challenge — Discriminated Shape
+
+```ts
+type Challenge =
+  | {
+      kind: 'PROGRAMMING'
+      prompt: string                 // markdown
+      starterCode: Record<Lang, string>
+      referenceSolution: { language: Lang; code: string }
+      testcases: TestCase[]          // stdin / expectedStdout pairs
+    }
+  | {
+      kind: 'MATH'
+      problemLatex: string           // LaTeX problem statement
+      canonicalSolutionLatex: string
+      gradingRubric: string          // natural-language rubric for the LLM grader
+    }
+```
+
+`Submission` mirrors the same split: a programming submission carries source code and per-testcase verdicts; a math submission carries the student's LaTeX and the LLM grader's structured verdict (`correct`, `equivalentForm`, `rationale`, `confidence`).
 
 ## API Endpoint Groups
 
-| Group | Base Path | Auth Required |
-|-------|-----------|---------------|
-| Health | `/api/v1/health` | No |
-| Auth | `/api/v1/auth` | No (register/login) |
-| Users | `/api/v1/users` | Yes |
-| Courses | `/api/v1/courses` | Mixed (public list, protected CRUD) |
-| Lessons | `/api/v1/lessons` | Mixed |
-| Challenges | `/api/v1/challenges` | Mixed |
-| Execution | `/api/v1/execution` | Mixed (run=public, submit=auth) |
-| Chat | `/api/v1/chat` | Yes (AI mentorship threads & messages) |
-| AI Generation | `/api/v1/ai` | Yes (course/lesson generation via Gemini) |
+| Group | Base Path | Auth Required | Notes |
+|-------|-----------|---------------|-------|
+| Health | `/api/v1/health` | No | Liveness only |
+| Auth | `/api/v1/auth` | No (register/login) | JWT issuance |
+| Users | `/api/v1/users` | Yes | Profile, stats |
+| Chat | `/api/v1/chat` | Yes | Mentor chat threads & messages |
+| Curriculum | `/api/v1/curriculum` | Yes | Request generation, poll job status |
+| Courses | `/api/v1/courses` | Yes | List **the current user's** courses |
+| Lessons | `/api/v1/lessons` | Yes | Read a lesson (only if owned by user) |
+| Challenges | `/api/v1/challenges` | Yes | Read a challenge (only if owned by user) |
+| Execution | `/api/v1/execution` | Yes | Run / submit PROGRAMMING challenges |
+| Math | `/api/v1/math` | Yes | Submit MATH challenges (LaTeX → LLM verdict) |
+| Admin | `/api/v1/admin` | ADMIN only | User management, ops |
+
+Note: there is **no** instructor-facing CRUD for courses/lessons/challenges. All content is generated through the curriculum pipeline.
 
 ## Environment Setup
 
 Backend requires a `.env` file (see `Backend/.env.example`):
 ```
 PORT=4000
-DATABASE_URL=mongodb://localhost:27017/lambda_lap
+DATABASE_URL=mongodb://localhost:27017/sigmaloop
 JWT_SECRET=<your-secret>
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
@@ -161,18 +191,21 @@ The constant `API_BASE_URL` in `Frontend/src/constants/index.ts` reads from `imp
 ### Docker (Full Stack)
 ```bash
 cd Backend && docker-compose up                                    # API + MongoDB
-cd Backend && docker-compose -f docker-compose.judge0.yml up       # Judge0 code execution engine
-cd Frontend && docker build -t lambda-lap-frontend .               # Nginx-served SPA
+cd Backend && docker-compose -f docker-compose.judge0.yml up       # Judge0
+cd Frontend && docker build -t sigmaloop-frontend .                # Nginx-served SPA
 ```
 
 ## Important Notes for Agents
 
-1. **Code execution uses Judge0** — `Backend/src/controllers/execution.controller.ts` sends code to a Judge0 CE sandbox (`docker-compose.judge0.yml`). Each test case is submitted via `POST /submissions?wait=true` and results are aggregated.
-2. **AI features use Google Gemini** — `Backend/src/services/ai.service.ts` provides chat mentorship (scoped to general/lesson/course) and structured course/lesson/challenge generation via `@google/generative-ai`. Requires `GEMINI_API_KEY`.
-3. **Rate limiting is disabled** — Middleware exists but all limiters are pass-through in `Backend/src/middlewares/rateLimit.middleware.ts`.
-4. **Graduation Project folder is reference material** — Contains the original design docs, API contract (v3.0), database schema (PDF), UI mockups (PNG), and a Next.js prototype. Do NOT modify this folder for implementation work; use it as a design reference.
-5. **The Next.js prototype in Graduation Project is separate** — The actual implementation is in `Frontend/` (React + Vite), not the Next.js prototype.
-6. **Supported languages for challenges**: Python, C++, Java, JavaScript, TypeScript, Go, Rust.
-7. **Frontend uses Monaco Editor** for the code editing experience.
-8. **Frontend uses Tailwind CSS** with glass morphism design (`.glass-panel`, `.glass-card`).
-9. **Generated content is stored separately** — AI-generated courses/lessons/challenges use their own collections (GeneratedCourse, GeneratedLesson, GeneratedChallenge), separate from manually created content.
+1. **There is no manual authoring path.** Do not add or restore endpoints for creating courses, lessons, or challenges by hand. Generation goes through `/curriculum/request`.
+2. **Two roles only: STUDENT and ADMIN.** Any reference to an INSTRUCTOR role in older code or docs is stale — remove it.
+3. **Challenges are discriminated by `kind`.** Both controllers and frontend rendering should branch on `kind` rather than assuming programming.
+4. **Programming grading uses Judge0** — `Backend/src/controllers/execution.controller.ts` runs AI-generated test cases. Each test case is submitted via `POST /submissions?wait=true` and results are aggregated.
+5. **Math grading uses Gemini** — `Backend/src/services/ai.service.ts` includes a `gradeMath(problem, canonical, studentLatex)` function that returns a structured verdict. Low-confidence verdicts (`confidence < 0.7`) are surfaced as "pending review" in the UI rather than auto-graded.
+6. **Curriculum generation is asynchronous.** A request creates a `CurriculumJob` and returns immediately. The actual generation runs in a worker (local: a separate Node process; production: Step Functions + Lambda, see `Hosting SigmaLoop/README.md`).
+7. **Gemini access is wrapped in an `AIClient` interface.** Do not import `@google/generative-ai` directly in controllers — go through the service layer so we can swap providers (e.g., to Bedrock) without touching business logic.
+8. **Supported languages for PROGRAMMING challenges**: Python, C++, Java, JavaScript, TypeScript, Go, Rust.
+9. **Frontend uses Monaco Editor** for PROGRAMMING challenges and a **LaTeX input with KaTeX preview** for MATH challenges. The Lesson page branches on `challenge.kind`.
+10. **Frontend uses Tailwind CSS** with glass morphism design (`.glass-panel`, `.glass-card`).
+11. **Graduation Project folder is reference material** — the original design documents from the academic submission. Do not modify; treat as historical context. The product has since evolved into the personalized-tutor vision described above.
+12. **Hosting plan**: see `Hosting SigmaLoop/README.md` for the AWS deployment proposal, including the async generation pipeline (EventBridge + Step Functions + Lambda) and math-grader Lambda.
