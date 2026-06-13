@@ -28,7 +28,7 @@ SigmaLoop/
 │   │   ├── middlewares/  # Auth, rate limiting
 │   │   ├── models/       # Mongoose schemas (see "Data Models")
 │   │   ├── routes/       # Express route definitions
-│   │   ├── services/     # AI service layer (Gemini SDK) — chat, generation, math grading
+│   │   ├── services/     # AI service layer (DeepSeek primary + Gemini fallback) — chat, generation, math grading
 │   │   ├── utils/        # JSend helpers, query builder, DB connection, Judge0 mapper
 │   │   ├── scripts/      # Database seeding (for dev only)
 │   │   └── __tests__/    # Jest tests
@@ -59,7 +59,7 @@ SigmaLoop/
 - **Frontend**: SPA at `http://localhost:5173` (Vite dev server), Axios to the API.
 - **Database**: MongoDB with Mongoose ODM.
 - **Auth**: JWT-based with Bearer tokens, two roles: **STUDENT, ADMIN**.
-- **AI**: Google Gemini (`@google/generative-ai`) for mentor chat, async curriculum generation, and math grading. All Gemini calls go through a single `AIClient` interface so the provider is swappable.
+- **AI**: **DeepSeek is the primary model** (OpenAI-compatible API), with **Google Gemini 2.5 Flash as an automatic fallback** for mentor chat, async curriculum generation, and math grading. The active provider is set by `AI_PROVIDER` (default `deepseek`). All calls go through a single `AIClient` interface (`FallbackAIClient` composes primary → fallback), so the provider is swappable. When `AI_PROVIDER=deepseek` but `DEEPSEEK_API_KEY` is unset, the system runs on Gemini only.
 - **Code execution**: Judge0 CE sandbox (Docker, port 2358) for programming challenges. Test cases are AI-generated and run via `POST /submissions?wait=true`.
 - **Async generation pipeline**: A curriculum request from the mentor chat enqueues a `CurriculumJob`; a worker processes it and writes `Course`, `Lesson`, `Challenge` documents. The chat is non-blocking — the user is notified when the curriculum is ready.
 
@@ -177,7 +177,9 @@ DATABASE_URL=mongodb://localhost:27017/sigmaloop
 JWT_SECRET=<your-secret>
 JWT_EXPIRES_IN=7d
 NODE_ENV=development
-GEMINI_API_KEY=<your-gemini-api-key>
+AI_PROVIDER=deepseek                     # 'deepseek' (default) or 'gemini'
+DEEPSEEK_API_KEY=<your-deepseek-api-key> # primary model
+GEMINI_API_KEY=<your-gemini-api-key>     # automatic fallback (Gemini 2.5 Flash)
 JUDGE0_DASHBOARD=http://localhost:2358
 ```
 
@@ -201,9 +203,9 @@ cd Frontend && docker build -t sigmaloop-frontend .                # Nginx-serve
 2. **Two roles only: STUDENT and ADMIN.** Any reference to an INSTRUCTOR role in older code or docs is stale — remove it.
 3. **Challenges are discriminated by `kind`.** Both controllers and frontend rendering should branch on `kind` rather than assuming programming.
 4. **Programming grading uses Judge0** — `Backend/src/controllers/execution.controller.ts` runs AI-generated test cases. Each test case is submitted via `POST /submissions?wait=true` and results are aggregated.
-5. **Math grading uses Gemini** — `Backend/src/services/ai.service.ts` includes a `gradeMath(problem, canonical, studentLatex)` function that returns a structured verdict. Low-confidence verdicts (`confidence < 0.7`) are surfaced as "pending review" in the UI rather than auto-graded.
+5. **Math grading uses the active AI provider** — `Backend/src/services/ai.service.ts` includes a `gradeMath(problem, canonical, studentLatex)` function (DeepSeek primary, Gemini fallback) that returns a structured verdict. Low-confidence verdicts (`confidence < 0.7`) are surfaced as "pending review" in the UI rather than auto-graded.
 6. **Curriculum generation is asynchronous.** A request creates a `CurriculumJob` and returns immediately. The actual generation runs in a worker (local: a separate Node process; production: Step Functions + Lambda, see `Hosting SigmaLoop/README.md`).
-7. **Gemini access is wrapped in an `AIClient` interface.** Do not import `@google/generative-ai` directly in controllers — go through the service layer so we can swap providers (e.g., to Bedrock) without touching business logic.
+7. **AI access is wrapped in an `AIClient` interface.** DeepSeek is primary and Gemini is the automatic fallback (`FallbackAIClient`). Do not import `@google/generative-ai` or call any model API directly in controllers — go through the service layer so we can swap providers (e.g., to Bedrock) without touching business logic.
 8. **Supported languages for PROGRAMMING challenges**: Python, C++, Java, JavaScript, TypeScript, Go, Rust.
 9. **Frontend uses Monaco Editor** for PROGRAMMING challenges and a **LaTeX input with KaTeX preview** for MATH challenges. The Lesson page branches on `challenge.kind`.
 10. **Frontend uses Tailwind CSS** with glass morphism design (`.glass-panel`, `.glass-card`).
