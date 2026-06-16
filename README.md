@@ -73,8 +73,17 @@ Services: `mongo`, `judge0`, `backend`, `frontend`, `all` (default).
 - **Roles**: STUDENT and ADMIN. There is no INSTRUCTOR role.
 - **Infrastructure**: Docker Compose locally; AWS (ECS Fargate + Judge0 on EC2 + DocumentDB + S3 + Step Functions) in production — see `Hosting SigmaLoop/README.md`.
 
+## Documentation
+
+📘 **The full technical book lives in [`docs/`](docs/README.md)** — a ~100-page,
+chapter-by-chapter reference covering everything from the data models to the AWS scaling
+story, with deep dives on the AI generation pipeline, the translation pipeline, and the
+judging/evaluation system, plus a forward-looking multi-agent generation design. Build it
+to a single PDF with `cd docs && ./build-pdf.sh`.
+
 ## Reference
 
+- [`docs/`](docs/README.md) — the complete SigmaLoop documentation book (start at `docs/README.md`).
 - `Graduation Project/` contains the original academic design documents, API contract, schema PDFs, and UI mockups. The product has since pivoted to the AI-tutor vision described above; treat that folder as historical context.
 - `Hosting SigmaLoop/README.md` is the SAA-style AWS deployment proposal.
 - `architecture-diagram-spec.md` is the diagram specification used for the university presentation.

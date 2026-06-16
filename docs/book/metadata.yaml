@@ -1,0 +1,22 @@
+---
+title: "SigmaLoop"
+subtitle: "Master the Logic behind the Code — A Complete Technical Reference"
+author:
+  - "The SigmaLoop Engineering Team"
+date: "2026"
+lang: en
+documentclass: report
+geometry:
+  - margin=1in
+fontsize: 11pt
+linkcolor: "RoyalBlue"
+urlcolor: "RoyalBlue"
+toccolor: "black"
+toc: true
+toc-depth: 2
+numbersections: true
+colorlinks: true
+mainfont: "DejaVu Serif"
+sansfont: "DejaVu Sans"
+monofont: "DejaVu Sans Mono"
+---

@@ -127,9 +127,9 @@ Every course in SigmaLoop is owned by one user — the learner it was generated 
 | User | Account with role STUDENT \| ADMIN and stats | - |
 | ChatThread | Mentor-chat container, scoped GENERAL \| COURSE \| LESSON | Belongs to User |
 | ChatMessage | Messages in threads (USER or ASSISTANT) | Belongs to ChatThread |
-| CurriculumJob | Async generation job; `type: 'NEW_COURSE' \| 'EXTEND_COURSE'` (+ optional `goals`, `targetCourseId`, `focus`, `lessonCount`) | Triggered by ChatThread/onboarding, owned by User |
+| CurriculumJob | Async generation job; `type: 'NEW_COURSE' \| 'EXTEND_COURSE' \| 'GENERATE_CHALLENGES'` (+ optional `goals`, `targetCourseId`, `focus`, `lessonCount`). NEW_COURSE outlines ≥12 lessons; EXTEND_COURSE appends ~5; GENERATE_CHALLENGES appends one challenge-only "practice" lesson | Triggered by ChatThread/onboarding, owned by User |
 | Course | Personalized course (status: PENDING / GENERATING / READY / FAILED) | Owned by User, produced by a CurriculumJob |
-| Lesson | Generated lesson (markdown body, optional — challenge-only lessons allowed) | Belongs to Course |
+| Lesson | Generated lesson (markdown body, optional — `challengeOnly` lessons skip the body and just hold challenges) | Belongs to Course |
 | Challenge | Generated challenge with `kind: 'PROGRAMMING' \| 'MATH' \| 'MCQ'` (Mongoose discriminator) | Belongs to Lesson |
 | Submission | A user's attempt at a Challenge (polymorphic by kind) | User + Challenge |
 | LessonProgress | Lesson completion state (complete only when **all** challenges passed) | User + Lesson (unique pair) |
@@ -172,15 +172,18 @@ type Challenge =
 | Users | `/api/v1/users` | Yes | Profile, stats |
 | Chat | `/api/v1/chat` | Yes | Mentor chat threads & messages; the mentor is **autonomous & tool-using** (returns `actions[]`) |
 | Curriculum | `/api/v1/curriculum` | Yes | `POST /request` (free-text **or** questionnaire `goals`); `POST /questionnaire/next` (AI follow-ups); poll job status |
-| Courses | `/api/v1/courses` | Yes | List **the current user's** courses; `POST /:courseId/generate-more` enqueues an EXTEND_COURSE job |
+| Courses | `/api/v1/courses` | Yes | List **the current user's** courses; `POST /:courseId/generate-more` enqueues an EXTEND_COURSE job (~5 lessons); `POST /:courseId/generate-challenges` enqueues a GENERATE_CHALLENGES job (one challenge-only practice lesson) |
 | Lessons | `/api/v1/lessons` | Yes | Read a lesson (only if owned by user); each challenge carries a `passed` flag |
 | Challenges | `/api/v1/challenges` | Yes | Read a challenge (only if owned by user) |
 | Execution | `/api/v1/execution` | Yes | Run / submit PROGRAMMING challenges |
 | Math | `/api/v1/math` | Yes | Submit MATH challenges (LaTeX → LLM verdict) |
 | MCQ | `/api/v1/mcq` | Yes | `POST /submit` MCQ answers (deterministic server grading) |
-| Admin | `/api/v1/admin` | ADMIN only | User management, ops |
+| Admin | `/api/v1/admin` | ADMIN only | User management, ops, **runtime settings** (`GET/PUT /admin/settings`, `DELETE /admin/settings/:key`) |
 
 Note: there is **no** instructor-facing CRUD for courses/lessons/challenges. All content is generated through the curriculum pipeline.
+
+### Runtime Settings (admin-tunable config)
+Most env tunables — AI provider, model names, token budgets, temperature, reasoner flags/thresholds, Qwen hint, Judge0 URL, and generation pacing/lesson counts — can be overridden **live from the admin Settings panel** without a redeploy. A code registry (`Backend/src/config/settingsRegistry.ts`) maps each KEY to a path in the live `config` object; the settings service overlays Mongo `AppSettings` onto `config` in place at startup and on every save, so changes take effect immediately (`AI_PROVIDER`/base-model changes rebuild the AI client live). **Secrets** (`DEEPSEEK_API_KEY`, `GEMINI_API_KEY`, `JWT_SECRET`, `DATABASE_URL`) are env-only — never stored in the DB, shown only as *configured / not configured*. `PORT`/`NODE_ENV` are read-only (need a restart). The env file remains the default/fallback layer.
 
 ## Environment Setup
 
