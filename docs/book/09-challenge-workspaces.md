@@ -19,15 +19,8 @@ Each workspace owns its own state, persists a draft to `localStorage`, and calls
 shared `onCompleted()` callback when its challenge is passed — which lets the parent
 `LessonView` mark the challenge done and re-evaluate lesson completion.
 
-> 🎨 **FIGURE 9.1 — The kind-dispatched workspace**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A clean diagram on white, indigo accent. A central rounded box 'ChallengeWorkspace
-> (switch on challenge.kind)' with three labelled branches: 'PROGRAMMING →
-> ProgrammingWorkspace (Monaco editor + Output panel, POST /execution/submit)', 'MATH →
-> MathWorkspace (MathLive math-field + Verdict panel, POST /math/submit)', 'MCQ →
-> MCQWorkspace (option buttons, POST /mcq/submit)'. Each branch shows a tiny wireframe of
-> its UI. All three converge on a shared callback 'onCompleted() → LessonView marks
-> challenge passed'. Flat, hairline borders."
+![The kind-dispatched workspace](../figures/figure-09-1.png)
+*Figure 9.1 — The kind-dispatched workspace: `ChallengeWorkspace` switches on `challenge.kind` into `ProgrammingWorkspace` (Monaco + Output, `POST /execution/submit`), `MathWorkspace` (MathLive math-field + verdict, `POST /math/submit`), or `MCQWorkspace` (option buttons, `POST /mcq/submit`) — all converging on a shared `onCompleted()` that marks the challenge passed in `LessonView`.*
 
 ## 9.2 ProgrammingWorkspace — code, run, grade
 

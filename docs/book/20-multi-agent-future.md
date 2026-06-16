@@ -40,18 +40,8 @@ job well, coordinated by an orchestrator, checked by critics, and — crucially 
 A practical decomposition of generation into dedicated agents. Each has a narrow remit, a
 focused prompt, and — importantly — its **own model assignment** (§20.6).
 
-> 🎨 **FIGURE 20.1 — The generation agent society**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "An orchestration diagram on dark navy, a central 'Orchestrator' node coordinating
-> labelled specialist agents arranged around it, with a shared 'Blackboard (structured
-> course state)' cylinder in the middle. Agents (rounded boxes, indigo): 'Needs Analyst',
-> 'Curriculum Architect', 'Dependency Checker', 'Lesson Author', 'Pedagogy Critic',
-> 'Problem Author', 'Test-Case Engineer', 'Solution Verifier (runs code in Judge0)',
-> 'Difficulty Calibrator', 'Distractor Critic', 'Coherence Auditor', 'Localization Agent'.
-> Show generator→critic loops as small circular arrows between an author and its critic.
-> Show the 'Solution Verifier' connected to an orange 'Judge0' box. Show a red 'escalate /
-> dead-letter' path for items that fail their quality gate. Hairline arrows, brand
-> palette."
+![The generation agent society](../figures/figure-20-1.png)
+*Figure 20.1 — The generation agent society: a central orchestrator coordinating specialist agents (Needs Analyst, Curriculum Architect, Dependency Checker, Lesson Author, Pedagogy Critic, Problem Author, Test-Case Engineer, Solution Verifier, Difficulty Calibrator, Distractor Critic, Coherence Auditor, Localization Agent) around a shared blackboard of course state — with generator→critic loops, the Solution Verifier wired to Judge0, and a dead-letter/escalate path for items that fail their quality gate.*
 
 | Agent | Job | Consumes | Produces |
 |-------|-----|----------|----------|
@@ -84,16 +74,8 @@ focused prompt, and — importantly — its **own model assignment** (§20.6).
 The single most valuable thing a multi-agent pipeline unlocks is a **closed loop for
 programming challenges**: generate, then *run*, and only keep what passes.
 
-> 🎨 **FIGURE 20.2 — One verified programming challenge**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A sequence diagram on dark navy for generating ONE verified programming challenge.
-> Steps: 'Problem Author → prompt + reference solution' → 'Test-Case Engineer → test set
-> (incl. edge + hidden)' → 'Solution Verifier → submit reference solution + tests to
-> Judge0' → decision diamond 'reference solution passes ALL its own tests?'. If NO → loop
-> back labelled 'critique + regenerate (max N)'. If YES → 'Adversary checks for trivial
-> solution' → 'Difficulty Calibrator confirms target' → green 'ACCEPT → persist
-> Challenge'. Side path 'exceed N attempts → dead-letter / escalate to stronger model'.
-> Orange Judge0 box, indigo agents, green accept, red dead-letter. Hairline."
+![One verified programming challenge](../figures/figure-20-2.png)
+*Figure 20.2 — One verified programming challenge: Problem Author (prompt + reference solution) → Test-Case Engineer (tests incl. edge + hidden) → Solution Verifier submits the reference solution + tests to Judge0; if it doesn't pass all its own tests, critique + regenerate (max N); if it does, Adversary checks for a trivial solution and the Difficulty Calibrator confirms target before **ACCEPT → persist Challenge** — and exceeding N attempts dead-letters or escalates to a stronger model.*
 
 The flow for one programming challenge:
 

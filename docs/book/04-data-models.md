@@ -11,19 +11,8 @@ internalizing before the tables:
 - **Two models are polymorphic** via Mongoose **discriminators** on a `kind` field:
   `Challenge` (PROGRAMMING / MATH / MCQ) and `Submission` (one shape per kind).
 
-> 🎨 **FIGURE 4.1 — Entity-relationship diagram**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A clean entity-relationship diagram on a white background, indigo (#6366f1) accent.
-> Central entity **User**. From User, one-to-many edges to: **ChatThread** (→
-> **ChatMessage**), **CurriculumJob**, **Course**, **MentorAction**. **Course**
-> one-to-many **Lesson**; **Lesson** one-to-many **Challenge**; **Challenge** shown as a
-> discriminated entity with three sub-types PROGRAMMING / MATH / MCQ. **Submission**
-> links **User** and **Challenge**, also discriminated into PROGRAMMING/MATH/MCQ.
-> **LessonProgress** links **User** and **Lesson** (unique pair). **LessonTranslation**
-> links **Lesson**+language; **UiTranslation** stands alone (global cache). **AppSettings**
-> stands alone. Show crow's-foot notation, label each edge with its foreign key
-> (userId, courseId, lessonId, challengeId, threadId). Flat, hairline borders, no
-> shadows."
+![Entity-relationship diagram](../figures/figure-04-1.png)
+*Figure 4.1 — Entity-relationship diagram: **User** at the centre fanning out to ChatThread→ChatMessage, CurriculumJob, Course→Lesson→Challenge (discriminated PROGRAMMING/MATH/MCQ), Submission, the LessonProgress join, and the LessonTranslation/UiTranslation/AppSettings tables — each edge labelled with its foreign key (userId, courseId, lessonId, …).*
 
 ## 4.1 The model catalogue
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 17.2 — Step Functions State Machine" style="width: 1000px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 26px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 17 · AWS Deployment</div>
+        <h2 style="margin: 8px 0 0; font-size: 28px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">Generation as a Step Functions State Machine</h2>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span style="display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border:1px solid rgba(124,58,237,0.35); border-radius:20px; background:rgba(124,58,237,0.05); font-family:'Geist Mono',monospace; font-size:10px; color:#4f46e5;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#4f46e5" stroke-width="1.3"/><path d="M8 4.5 V8 L10.3 9.6" stroke="#4f46e5" stroke-width="1.3" stroke-linecap="round"/></svg>async</span>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 17.2</span>
+      </div>
+    </div>
+
+    <div style="position: relative; max-width: 560px; margin: 0 auto;">
+
+      <!-- start -->
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <div style="display:inline-flex; align-items:center; gap:9px; padding:10px 18px; border:1px solid rgba(59,130,246,0.45); border-radius:24px; background:rgba(59,130,246,0.06);">
+          <span style="width:9px;height:9px;border-radius:50%;background:#3b82f6;box-shadow:0 0 9px #3b82f6;"></span>
+          <span style="font-size:13px; color:#2563eb; font-weight:500;">EventBridge</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#2563eb;">curriculum.requested</span>
+        </div>
+        <svg width="12" height="18" viewBox="0 0 12 18" fill="none"><line x1="6" y1="0" x2="6" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L6 15 L10 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <!-- 1 -->
+      <div style="display:flex; align-items:center; gap:13px; border:1px solid rgba(124,58,237,0.4); border-radius:9px; background:rgba(124,58,237,0.06); padding:13px 16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5; flex-shrink:0;">λ</span>
+        <span style="font-size:13.5px; color:#4338ca; font-weight:500;">deduce-needs</span>
+        <span style="margin-left:auto; font-family:'Geist Mono',monospace; font-size:11px; color:#6366f1;">→ LearningGoals</span>
+      </div>
+      <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><line x1="6" y1="0" x2="6" y2="9" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 7 L6 13 L10 7" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <!-- 2 -->
+      <div style="display:flex; align-items:center; gap:13px; border:1px solid rgba(124,58,237,0.4); border-radius:9px; background:rgba(124,58,237,0.06); padding:13px 16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5; flex-shrink:0;">λ</span>
+        <span style="font-size:13.5px; color:#4338ca; font-weight:500;">generate-course</span>
+        <span style="margin-left:auto; font-family:'Geist Mono',monospace; font-size:11px; color:#6366f1;">→ outline</span>
+      </div>
+      <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><line x1="6" y1="0" x2="6" y2="9" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 7 L6 13 L10 7" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <!-- Map state -->
+      <div style="border:1.5px dashed rgba(124,58,237,0.45); border-radius:12px; padding:5px;">
+        <div style="border:1px solid rgba(124,58,237,0.3); border-radius:9px; padding:14px;">
+          <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1px; color:#4f46e5; text-transform:uppercase; margin-bottom:12px;">Map state · for each lesson</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex:1; display:flex; align-items:center; gap:10px; border:1px solid rgba(124,58,237,0.4); border-radius:8px; background:rgba(124,58,237,0.07); padding:11px 13px;"><span style="font-family:'Geist Mono',monospace; font-size:10px; color:#4f46e5;">λ</span><span style="font-size:12.5px; color:#4f46e5;">generate-lesson</span></div>
+            <svg width="22" height="10" viewBox="0 0 22 10"><line x1="0" y1="5" x2="16" y2="5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M12 2 L18 5 L12 8" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+            <div style="flex:1; display:flex; align-items:center; gap:10px; border:1px solid rgba(124,58,237,0.4); border-radius:8px; background:rgba(124,58,237,0.07); padding:11px 13px;"><span style="font-family:'Geist Mono',monospace; font-size:10px; color:#4f46e5;">λ</span><span style="font-size:12.5px; color:#4f46e5;">generate-challenge</span></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><line x1="6" y1="0" x2="6" y2="9" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 7 L6 13 L10 7" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <!-- persist -->
+      <div style="display:flex; align-items:center; gap:13px; border:1px solid rgba(34,197,94,0.4); border-radius:9px; background:rgba(34,197,94,0.05); padding:13px 16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a; flex-shrink:0;">λ</span>
+        <span style="font-size:13.5px; color:#15803d; font-weight:500;">persist artifacts</span>
+        <span style="margin-left:auto; font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a;">S3 + DocumentDB</span>
+      </div>
+      <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><line x1="6" y1="0" x2="6" y2="9" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 7 L6 13 L10 7" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <!-- flip -->
+      <div style="display:flex; align-items:center; gap:10px; border:1px solid rgba(45,212,191,0.4); border-radius:9px; background:rgba(45,212,191,0.05); padding:13px 16px;">
+        <span style="font-size:13.5px; color:#0f766e; font-weight:500;">flip course</span>
+        <span style="font-family:'Geist Mono',monospace; font-size:11.5px; color:#0f766e;">PENDING → READY</span>
+      </div>
+      <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><line x1="6" y1="0" x2="6" y2="9" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 7 L6 13 L10 7" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <!-- notify -->
+      <div style="display:flex; align-items:center; gap:10px; border:1px solid rgba(59,130,246,0.4); border-radius:9px; background:rgba(59,130,246,0.05); padding:13px 16px;">
+        <span style="font-size:13.5px; color:#2563eb; font-weight:500;">notify learner</span>
+        <span style="margin-left:auto; font-family:'Geist Mono',monospace; font-size:11px; color:#2563eb;">SNS · Web-Push · SSE</span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; margin-top:10px;">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="none"><line x1="6" y1="0" x2="6" y2="8" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 6 L6 12 L10 6" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:7px 16px; border-radius:24px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.45);"><span style="width:8px;height:8px;border-radius:50%;background:#16a34a;"></span><span style="font-size:12px; color:#16a34a; font-weight:500;">Succeeded</span></div>
+      </div>
+
+      <!-- DLQ side -->
+      <div style="position:absolute; right:-176px; top:300px; width:160px;">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:8px;">
+          <svg width="40" height="11" viewBox="0 0 40 11"><line x1="40" y1="5.5" x2="8" y2="5.5" stroke="#7f1d1d" stroke-width="1.3" stroke-dasharray="4 3"/><path d="M12 2 L6 5.5 L12 9" stroke="#7f1d1d" stroke-width="1.3" fill="none"/></svg>
+          <span style="font-family:'Geist Mono',monospace; font-size:10px; color:#b91c1c;">catch / retry</span>
+        </div>
+        <div style="border:1px solid rgba(239,68,68,0.4); border-radius:10px; background:rgba(239,68,68,0.05); padding:14px;">
+          <div style="font-family:'Geist Mono',monospace; font-size:12px; color:#dc2626; font-weight:500;">failed_generations</div>
+          <div style="font-size:11px; color:#b91c1c; margin-top:5px;">DLQ + SNS alert</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 28px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 17.2 — Generation as a Step Functions State Machine</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1100, &quot;height&quot;: 1000}}"></script>
+</body>
+</html>

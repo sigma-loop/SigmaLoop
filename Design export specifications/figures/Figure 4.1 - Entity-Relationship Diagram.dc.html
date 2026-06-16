@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 4.1 — ERD" style="width: 1140px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 38px 42px 28px; box-shadow: 0 40px 120px rgba(0,0,0,0.45);">
+
+    <!-- header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 4 · Data Models</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">Entity-Relationship Diagram</h2>
+      </div>
+      <div style="display: flex; align-items: center; gap: 18px;">
+        <div style="display: flex; gap: 14px; font-family: 'Geist Mono', monospace; font-size: 10.5px; color: #94a3b8;">
+          <span style="display:flex; align-items:center; gap:5px;"><svg width="22" height="10"><path d="M2 5 H20 M20 5 L13 1 M20 5 L13 5 M20 5 L13 9" stroke="#94a3b8" stroke-width="1" fill="none"/></svg> many</span>
+          <span style="display:flex; align-items:center; gap:5px;"><svg width="22" height="10"><path d="M2 5 H20 M6 1 V9" stroke="#94a3b8" stroke-width="1"/></svg> one</span>
+        </div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 4.1</div>
+      </div>
+    </div>
+
+    <!-- stage -->
+    <div style="position: relative; width: 1056px; height: 880px; margin: 0 auto;">
+
+      <!-- connector layer -->
+      <svg viewBox="0 0 1056 880" width="1056" height="880" style="position: absolute; inset: 0; pointer-events: none;" fill="none">
+        <defs>
+          <marker id="erd-many" markerWidth="14" markerHeight="14" refX="11" refY="7" orient="auto"><path d="M11 7 L1 1 M11 7 L1 7 M11 7 L1 13" stroke="#94a3b8" stroke-width="1" fill="none"/></marker>
+          <marker id="erd-one" markerWidth="12" markerHeight="14" refX="2" refY="7" orient="auto"><path d="M6 2 L6 12" stroke="#94a3b8" stroke-width="1"/></marker>
+        </defs>
+        <g stroke="#cbd5e1" stroke-width="1.2">
+          <!-- User → ChatThread -->
+          <path d="M210 405 L255 405 L255 101 L300 101" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- User → CurriculumJob -->
+          <path d="M210 420 L272 420 L272 201 L300 201" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- User → MentorAction -->
+          <path d="M210 435 L286 435 L286 301 L300 301" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- User → Course -->
+          <path d="M210 450 L255 450 L255 421 L300 421" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- User → LessonProgress -->
+          <path d="M210 465 L240 465 L240 591 L300 591" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- User → Submission (bottom route) -->
+          <path d="M125 510 L125 770 L760 770 L760 635 L780 635" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- ChatThread → ChatMessage -->
+          <path d="M460 101 L540 101" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- Course → Lesson -->
+          <path d="M460 421 L540 421" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- Lesson → Challenge -->
+          <path d="M700 421 L740 421 L740 430 L780 430" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- Lesson → LessonTranslation -->
+          <path d="M620 452 L620 485 L605 485 L605 500" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- Lesson → LessonProgress -->
+          <path d="M540 445 L520 445 L520 591 L490 591" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+          <!-- Challenge → Submission -->
+          <path d="M885 510 L885 560" marker-start="url(#erd-one)" marker-end="url(#erd-many)"/>
+        </g>
+        <!-- FK labels -->
+        <g font-family="Geist Mono, monospace" font-size="10.5" fill="#94a3b8" style="paint-order: stroke;" stroke="#ffffff" stroke-width="4">
+          <text x="259" y="250">userId</text>
+          <text x="276" y="350">userId</text>
+          <text x="244" y="640">userId</text>
+          <text x="500" y="95">threadId</text>
+          <text x="476" y="415">courseId</text>
+          <text x="744" y="412">lessonId</text>
+          <text x="628" y="488">lessonId</text>
+          <text x="525" y="540">lessonId</text>
+          <text x="893" y="540">challengeId</text>
+          <text x="380" y="763">userId</text>
+        </g>
+      </svg>
+
+      <!-- ENTITIES -->
+      <!-- User (central) -->
+      <div style="position: absolute; left: 40px; top: 390px; width: 170px; border: 1.5px solid #6366f1; border-radius: 9px; overflow: hidden; background: #fff; box-shadow: 0 6px 18px rgba(99,102,241,0.12);">
+        <div style="background: #4f46e5; color: #fff; padding: 9px 13px; font-size: 14px; font-weight: 600;">User</div>
+        <div style="padding: 9px 13px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #64748b; line-height: 1.9;">
+          <div><span style="color:#6366f1;">●</span> id <span style="color:#cbd5e1;">PK</span></div>
+          <div>email · role</div>
+          <div>xp · streak</div>
+        </div>
+      </div>
+
+      <!-- ChatThread -->
+      <div style="position: absolute; left: 300px; top: 70px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">ChatThread</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · userId · title</div>
+      </div>
+      <!-- ChatMessage -->
+      <div style="position: absolute; left: 540px; top: 70px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">ChatMessage</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · threadId · role</div>
+      </div>
+      <!-- CurriculumJob -->
+      <div style="position: absolute; left: 300px; top: 170px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">CurriculumJob</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · userId · status</div>
+      </div>
+      <!-- MentorAction -->
+      <div style="position: absolute; left: 300px; top: 270px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">MentorAction</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · userId · type</div>
+      </div>
+      <!-- Course -->
+      <div style="position: absolute; left: 300px; top: 390px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">Course</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · userId · status</div>
+      </div>
+      <!-- Lesson -->
+      <div style="position: absolute; left: 540px; top: 390px; width: 160px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">Lesson</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">id · courseId · status</div>
+      </div>
+      <!-- Challenge (discriminated) -->
+      <div style="position: absolute; left: 780px; top: 350px; width: 210px; border: 1.5px solid #6366f1; border-radius: 9px; overflow: hidden; background: #fff; box-shadow: 0 6px 18px rgba(99,102,241,0.1);">
+        <div style="background: #4f46e5; color: #fff; padding: 9px 13px; font-size: 14px; font-weight: 600;">Challenge <span style="font-family:'Geist Mono',monospace; font-size:10px; opacity:0.8; font-weight:400;">discriminated</span></div>
+        <div style="padding: 7px 13px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8;">id · lessonId · kind</div>
+        <div style="display: flex; gap: 6px; padding: 4px 13px 12px;">
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(124,58,237,0.3); border-radius: 5px; background: rgba(124,58,237,0.05); color: #7c3aed; font-size: 10px; font-weight: 600;">PROG</span>
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(59,130,246,0.3); border-radius: 5px; background: rgba(59,130,246,0.05); color: #3b82f6; font-size: 10px; font-weight: 600;">MATH</span>
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(34,197,94,0.3); border-radius: 5px; background: rgba(34,197,94,0.05); color: #16a34a; font-size: 10px; font-weight: 600;">MCQ</span>
+        </div>
+      </div>
+      <!-- LessonTranslation -->
+      <div style="position: absolute; left: 520px; top: 500px; width: 170px; border: 1px solid #e5e7eb; border-radius: 9px; overflow: hidden; background: #fff;">
+        <div style="background: #6366f1; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">LessonTranslation</div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">lessonId + language</div>
+      </div>
+      <!-- LessonProgress -->
+      <div style="position: absolute; left: 300px; top: 560px; width: 190px; border: 1px dashed #94a3b8; border-radius: 9px; overflow: hidden; background: #f8fafc;">
+        <div style="background: #64748b; color: #fff; padding: 8px 12px; font-size: 13px; font-weight: 600;">LessonProgress <span style="font-size:10px; opacity:0.8; font-weight:400;">junction</span></div>
+        <div style="padding: 7px 12px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; line-height: 1.8;">unique(userId, lessonId)</div>
+      </div>
+      <!-- Submission (discriminated junction) -->
+      <div style="position: absolute; left: 780px; top: 560px; width: 210px; border: 1.5px solid #94a3b8; border-radius: 9px; overflow: hidden; background: #f8fafc;">
+        <div style="background: #475569; color: #fff; padding: 9px 13px; font-size: 14px; font-weight: 600;">Submission <span style="font-family:'Geist Mono',monospace; font-size:10px; opacity:0.8; font-weight:400;">junction</span></div>
+        <div style="padding: 7px 13px; font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8;">userId + challengeId</div>
+        <div style="display: flex; gap: 6px; padding: 4px 13px 12px;">
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(124,58,237,0.3); border-radius: 5px; background: rgba(124,58,237,0.05); color: #7c3aed; font-size: 10px; font-weight: 600;">PROG</span>
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(59,130,246,0.3); border-radius: 5px; background: rgba(59,130,246,0.05); color: #3b82f6; font-size: 10px; font-weight: 600;">MATH</span>
+          <span style="flex:1; text-align:center; padding: 5px 4px; border: 1px solid rgba(34,197,94,0.3); border-radius: 5px; background: rgba(34,197,94,0.05); color: #16a34a; font-size: 10px; font-weight: 600;">MCQ</span>
+        </div>
+      </div>
+
+      <!-- standalone group -->
+      <div style="position: absolute; left: 845px; top: 60px; width: 196px; padding: 12px; border: 1px dashed #cbd5e1; border-radius: 11px; background: #fafbfc;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #cbd5e1; text-transform: uppercase; margin-bottom: 9px;">Global · no relations</div>
+        <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #fff; margin-bottom: 9px;">
+          <div style="background: #94a3b8; color: #fff; padding: 7px 11px; font-size: 12.5px; font-weight: 600;">UiTranslation</div>
+          <div style="padding: 6px 11px; font-family: 'Geist Mono', monospace; font-size: 10.5px; color: #94a3b8;">hash → text · cache</div>
+        </div>
+        <div style="border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; background: #fff;">
+          <div style="background: #94a3b8; color: #fff; padding: 7px 11px; font-size: 12.5px; font-weight: 600;">AppSettings</div>
+          <div style="padding: 6px 11px; font-family: 'Geist Mono', monospace; font-size: 10.5px; color: #94a3b8;">key → value · singleton</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- footer -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 4.1 — Entity-Relationship Diagram</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1240, &quot;height&quot;: 1050}}"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 14.1 — Three Graders, One Engine" style="width: 1120px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 14 · Judging &amp; Evaluation</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">Three Graders, One Progress Engine</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 14.1</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; align-items: start;">
+
+      <!-- PROGRAMMING -->
+      <div style="border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; background: rgba(245,158,11,0.03); padding: 16px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:13px; letter-spacing:1px; color:#d97706; font-weight:500;">PROGRAMMING</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:9px; letter-spacing:0.5px; color:#b45309; border:1px solid rgba(245,158,11,0.3); border-radius:3px; padding:2px 6px;">DETERMINISTIC</span>
+        </div>
+        <div style="padding:10px 12px; border:1px solid rgba(245,158,11,0.3); border-radius:7px; background:rgba(245,158,11,0.05); font-family:'Geist Mono',monospace; font-size:11.5px; color:#b45309;"><span style="color:#16a34a;">POST</span> /execution/submit</div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(245,158,11,0.3); border-radius:7px; background:rgba(245,158,11,0.05); font-size:12.5px; color:#b45309;">Judge0 sandbox runs all test cases</div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(245,158,11,0.3); border-radius:7px; background:rgba(245,158,11,0.05); font-size:12.5px; color:#b45309;">pass iff <span style="font-family:'Geist Mono',monospace; font-size:11px;">status_id === 3</span></div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(245,158,11,0.45); border-radius:7px; background:rgba(245,158,11,0.1); font-family:'Geist Mono',monospace; font-size:12px; color:#d97706; font-weight:500;">ProgrammingSubmission</div>
+      </div>
+
+      <!-- MATH -->
+      <div style="border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; background: rgba(59,130,246,0.03); padding: 16px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:13px; letter-spacing:1px; color:#2563eb; font-weight:500;">MATH</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:9px; letter-spacing:0.5px; color:#2563eb; border:1px solid rgba(59,130,246,0.3); border-radius:3px; padding:2px 6px;">LLM · CONFIDENCE-GATED</span>
+        </div>
+        <div style="padding:10px 12px; border:1px solid rgba(59,130,246,0.3); border-radius:7px; background:rgba(59,130,246,0.05); font-family:'Geist Mono',monospace; font-size:11.5px; color:#2563eb;"><span style="color:#16a34a;">POST</span> /math/submit</div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(59,130,246,0.3); border-radius:7px; background:rgba(59,130,246,0.05); font-size:12.5px; color:#2563eb;">LLM <span style="font-family:'Geist Mono',monospace; font-size:11px;">gradeMath(problem, canonical, latex)</span></div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(59,130,246,0.3); border-radius:7px; background:rgba(59,130,246,0.05); font-family:'Geist Mono',monospace; font-size:10.5px; color:#2563eb; line-height:1.6;">{ correct, equivalentForm,<br>rationale, confidence }</div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(59,130,246,0.45); border-radius:7px; background:rgba(59,130,246,0.1); font-size:11.5px; color:#1d4ed8;"><span style="font-family:'Geist Mono',monospace; font-size:10.5px;">confidence &lt; 0.7</span> ? <span style="color:#d97706;">PENDING_REVIEW</span> : PASSED/FAILED</div>
+      </div>
+
+      <!-- MCQ -->
+      <div style="border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; background: rgba(34,197,94,0.03); padding: 16px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+          <span style="font-family:'Geist Mono',monospace; font-size:13px; letter-spacing:1px; color:#16a34a; font-weight:500;">MCQ</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:9px; letter-spacing:0.5px; color:#16a34a; border:1px solid rgba(34,197,94,0.3); border-radius:3px; padding:2px 6px;">DETERMINISTIC</span>
+        </div>
+        <div style="padding:10px 12px; border:1px solid rgba(34,197,94,0.3); border-radius:7px; background:rgba(34,197,94,0.05); font-family:'Geist Mono',monospace; font-size:11.5px; color:#16a34a;"><span style="color:#16a34a;">POST</span> /mcq/submit</div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(34,197,94,0.3); border-radius:7px; background:rgba(34,197,94,0.05); font-size:12.5px; color:#16a34a;">set-equality <span style="font-family:'Geist Mono',monospace; font-size:11px;">(selected, correctIds)</span></div>
+        <div style="display:flex; justify-content:center; padding:6px 0;"><svg width="11" height="18" viewBox="0 0 11 18" fill="none"><line x1="5.5" y1="0" x2="5.5" y2="11" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 9 L5.5 15 L9 9" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:10px 12px; border:1px solid rgba(34,197,94,0.45); border-radius:7px; background:rgba(34,197,94,0.1); font-family:'Geist Mono',monospace; font-size:12px; color:#16a34a; font-weight:500;">MCQSubmission</div>
+      </div>
+
+    </div>
+
+    <!-- converging band -->
+    <div style="height: 46px; position: relative;">
+      <svg viewBox="0 0 1032 46" width="100%" height="46" preserveAspectRatio="none" style="position:absolute; inset:0;" fill="none">
+        <path d="M172 0 C172 26 516 18 516 44" stroke="#cbd5e1" stroke-width="1.5"/>
+        <path d="M516 0 L516 44" stroke="#cbd5e1" stroke-width="1.5"/>
+        <path d="M860 0 C860 26 516 18 516 44" stroke="#cbd5e1" stroke-width="1.5"/>
+        <path d="M510 38 L516 45 L522 38" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- engine -->
+    <div style="border: 1.5px solid rgba(99,102,241,0.5); border-radius: 12px; background: rgba(99,102,241,0.06); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 0 0 1px rgba(99,102,241,0.1), 0 8px 28px rgba(99,102,241,0.12);">
+      <div>
+        <div style="font-family:'Geist Mono',monospace; font-size:14px; color:#4338ca; font-weight:500;">progress.service.markLessonComplete</div>
+        <div style="font-size:12.5px; color:#64748b; margin-top:5px;">lesson done only when <span style="color:#4338ca;">ALL challenges PASSED</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:7px; padding:9px 16px; border:1px solid rgba(34,197,94,0.45); border-radius:8px; background:rgba(34,197,94,0.1);">
+        <span style="font-size:15px; font-weight:700; color:#16a34a;">+50</span><span style="font-size:12px; color:#16a34a;">XP</span>
+      </div>
+    </div>
+
+    <!-- status legend -->
+    <div style="display:flex; align-items:center; gap:10px; margin-top:20px; flex-wrap:wrap;">
+      <span style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1px; color:#94a3b8; text-transform:uppercase;">Status</span>
+      <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#9ca3af; border:1px solid rgba(107,114,128,0.3); border-radius:20px; padding:4px 12px;">PENDING</span>
+      <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#2563eb; border:1px solid rgba(59,130,246,0.3); border-radius:20px; padding:4px 12px;">RUNNING</span>
+      <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a; border:1px solid rgba(34,197,94,0.4); border-radius:20px; padding:4px 12px;">PASSED</span>
+      <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#dc2626; border:1px solid rgba(239,68,68,0.3); border-radius:20px; padding:4px 12px;">FAILED</span>
+      <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#d97706; border:1px solid rgba(245,158,11,0.3); border-radius:20px; padding:4px 12px;">PENDING_REVIEW</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 14.1 — Three Graders, One Progress Engine</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1220, &quot;height&quot;: 760}}"></script>
+</body>
+</html>

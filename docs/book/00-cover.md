@@ -11,15 +11,13 @@
 
 </div>
 
-> 🎨 **FIGURE 0.1 — Cover art**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A premium technical book cover on a dark navy (#0a0e1a) background. Centered title
-> 'SigmaLoop' in a clean geometric sans-serif (Outfit/Inter style), with the tagline
-> 'Master the Logic behind the Code' beneath it in a lighter indigo (#6366f1). Behind
-> the title, a subtle abstract motif: a looping sigma (Σ) symbol formed from flowing
-> nodes-and-edges that suggest both a neural network and a learning path, in teal
-> (#2dd4bf) and indigo. Minimal, Linear/Vercel aesthetic — flat, hairline accents, no
-> glossy gradients. Leave generous negative space. 2:3 portrait aspect ratio."
+<div align="center">
+
+![SigmaLoop — Master the Logic behind the Code](../figures/figure-00-1.png)
+
+*Figure 0.1 — Cover art: the SigmaLoop title and the tagline "Master the Logic behind the Code" set over a looping sigma (Σ) drawn as a teal-to-indigo node-and-edge graph — a neural network and a learning path at once.*
+
+</div>
 
 ---
 

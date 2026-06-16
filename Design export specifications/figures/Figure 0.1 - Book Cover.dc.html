@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 0.1 — Book Cover" style="position: relative; width: 720px; height: 1080px; background: radial-gradient(120% 80% at 50% 20%, #ffffff 0%, #f7f8fb 55%, #eef1f6 100%); overflow: hidden; box-shadow: 0 40px 120px rgba(15,20,34,0.18); border: 1px solid #e5e7eb;">
+
+    <!-- frame: double hairline -->
+    <div style="position: absolute; inset: 26px; border: 1px solid rgba(15,20,34,0.1); pointer-events: none;"></div>
+    <div style="position: absolute; inset: 34px; border: 1px solid rgba(15,20,34,0.05); pointer-events: none;"></div>
+
+    <!-- ambient node field + sigma motif -->
+    <svg viewBox="0 0 720 1080" width="720" height="1080" style="position: absolute; inset: 0;" fill="none">
+      <defs>
+        <linearGradient id="cover-sig" x1="360" y1="380" x2="360" y2="900" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#14b8a6"/>
+          <stop offset="0.5" stop-color="#6366f1"/>
+          <stop offset="1" stop-color="#7c3aed"/>
+        </linearGradient>
+        <radialGradient id="cover-glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stop-color="#6366f1" stop-opacity="0.10"/>
+          <stop offset="1" stop-color="#6366f1" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <ellipse cx="360" cy="640" rx="300" ry="320" fill="url(#cover-glow)"/>
+
+      <!-- faint scatter nodes -->
+      <g fill="#14b8a6" opacity="0.28">
+        <circle cx="150" cy="470" r="2"/><circle cx="600" cy="430" r="2"/>
+        <circle cx="120" cy="760" r="2"/><circle cx="610" cy="820" r="2.5"/>
+        <circle cx="200" cy="930" r="2"/><circle cx="540" cy="950" r="2"/>
+        <circle cx="360" cy="360" r="2"/><circle cx="245" cy="600" r="1.6"/>
+        <circle cx="475" cy="690" r="1.6"/>
+      </g>
+      <g stroke="#14b8a6" stroke-width="1" opacity="0.16">
+        <line x1="150" y1="470" x2="245" y2="560"/>
+        <line x1="600" y1="430" x2="500" y2="525"/>
+        <line x1="120" y1="760" x2="225" y2="700"/>
+        <line x1="610" y1="820" x2="500" y2="755"/>
+      </g>
+
+      <!-- Sigma polyline as node graph -->
+      <polyline points="500,440 225,440 360,640 225,840 500,840"
+                stroke="url(#cover-sig)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+      <g stroke="url(#cover-sig)" stroke-width="1" opacity="0.35">
+        <line x1="225" y1="440" x2="225" y2="840"/>
+        <line x1="500" y1="440" x2="360" y2="640"/>
+        <line x1="500" y1="840" x2="360" y2="640"/>
+        <line x1="225" y1="440" x2="500" y2="840"/>
+      </g>
+      <g>
+        <circle cx="500" cy="440" r="6" fill="#ffffff" stroke="#14b8a6" stroke-width="2"/>
+        <circle cx="225" cy="440" r="6" fill="#ffffff" stroke="#14b8a6" stroke-width="2"/>
+        <circle cx="360" cy="640" r="7" fill="#ffffff" stroke="#6366f1" stroke-width="2"/>
+        <circle cx="225" cy="840" r="6" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
+        <circle cx="500" cy="840" r="6" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
+        <circle cx="500" cy="440" r="2.5" fill="#14b8a6"/>
+        <circle cx="225" cy="440" r="2.5" fill="#14b8a6"/>
+        <circle cx="360" cy="640" r="3" fill="#6366f1"/>
+        <circle cx="225" cy="840" r="2.5" fill="#7c3aed"/>
+        <circle cx="500" cy="840" r="2.5" fill="#7c3aed"/>
+      </g>
+    </svg>
+
+    <!-- top label -->
+    <div style="position: absolute; top: 86px; left: 0; right: 0; text-align: center;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 4.5px; color: #94a3b8; text-transform: uppercase;">A&nbsp;&nbsp;Technical&nbsp;&nbsp;Architecture&nbsp;&nbsp;Book</div>
+    </div>
+
+    <!-- title block -->
+    <div style="position: absolute; top: 150px; left: 0; right: 0; text-align: center; padding: 0 60px;">
+      <h1 style="margin: 0; font-weight: 600; font-size: 78px; letter-spacing: -1.5px; color: #0f1422; line-height: 1;">
+        Sigma<span style="color: #6366f1;">Loop</span>
+      </h1>
+      <div style="margin-top: 22px; font-size: 19px; font-weight: 400; letter-spacing: 0.2px; color: #6366f1;">
+        Master the Logic behind the Code
+      </div>
+    </div>
+
+    <!-- bottom meta -->
+    <div style="position: absolute; bottom: 78px; left: 0; right: 0; text-align: center; padding: 0 60px;">
+      <div style="display: inline-flex; gap: 28px; align-items: center; font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #94a3b8; text-transform: uppercase;">
+        <span>Architecture</span>
+        <span style="color: #0d9488;">·</span>
+        <span>AI&nbsp;Agents</span>
+        <span style="color: #7c3aed;">·</span>
+        <span>Scale</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 800, &quot;height&quot;: 1160}}"></script>
+</body>
+</html>

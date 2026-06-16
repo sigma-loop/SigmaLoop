@@ -26,22 +26,8 @@ database.
 
 ## 17.2 The target architecture, layer by layer
 
-> 🎨 **FIGURE 17.1 — AWS target topology**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A production AWS architecture diagram, dark navy background, grouped into a VPC with
-> three subnet tiers across two AZs. **Public edge (outside VPC):** CloudFront +
-> S3 'sigmaloop-web' + AWS WAF + ACM. **Public subnet:** a public ALB. **Private app
-> subnet (x2 AZ):** ECS Fargate running the Express API (auto-scaled on request count).
-> **Private worker subnet (x2 AZ):** ECS-on-EC2 Auto Scaling Group running Judge0
-> (server + workers, privileged) behind an internal ALB; ElastiCache Redis; RDS
-> PostgreSQL (Multi-AZ). **Data:** Amazon DocumentDB cluster; three S3 buckets
-> (sigmaloop-testcases, sigmaloop-generated-content, sigmaloop-submissions). **AI
-> pipeline:** EventBridge bus → Step Functions → Lambdas (deduce-needs, generate-course,
-> generate-lesson, generate-challenge, grade-math) → S3 + DocumentDB → SNS/Web-Push.
-> **Egress:** NAT Gateway to the external AI provider (DeepSeek/Gemini). **Cross-cutting:**
-> Secrets Manager, KMS, CloudTrail, GuardDuty, CloudWatch/X-Ray. Use the brand palette:
-> indigo for compute, green for data, orange for Judge0, blue for AI. Label the ALBs, the
-> NAT, and the S3 gateway endpoint."
+![AWS target topology](../figures/figure-17-1.png)
+*Figure 17.1 — AWS target topology: a VPC across two AZs — public edge (CloudFront + S3 `sigmaloop-web` + WAF + ACM), a public ALB, a private app subnet (ECS Fargate API, auto-scaled on request count), and a private worker subnet (ECS-on-EC2 Judge0 + internal ALB + ElastiCache Redis + RDS PostgreSQL) — plus DocumentDB, three S3 buckets, the EventBridge → Step Functions → Lambda generation pipeline, NAT egress to the AI provider, and the Secrets Manager/KMS/CloudTrail/GuardDuty cross-cutting layer.*
 
 | Layer | AWS service | Key decisions |
 |-------|-------------|---------------|
@@ -71,16 +57,8 @@ database.
 
 The in-process worker (Chapter 12) is replaced by an event-driven, serverless pipeline:
 
-> 🎨 **FIGURE 17.2 — Generation as a Step Functions state machine**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "An AWS Step Functions state-machine diagram on dark navy. Trigger: 'Mentor chat
-> persists Course (PENDING) → emits curriculum.requested to EventBridge bus'. EventBridge
-> rule → Step Functions (Standard) with states: 'deduce-needs (Lambda) → LearningGoals
-> JSON' → 'generate-course (Lambda) → outline' → a **Map state** 'per lesson:
-> generate-lesson (Lambda) → generate-challenge (Lambda)' → 'persist artifacts to S3 +
-> metadata to DocumentDB' → 'flip PENDING→READY' → 'notify via SNS / Web-Push / SSE'. Show
-> a retry+dead-letter branch 'failed_generations'. Indigo Lambda boxes, green data
-> writes, a clock badge on the whole machine. Hairline arrows with state labels."
+![Generation as a Step Functions state machine](../figures/figure-17-2.png)
+*Figure 17.2 — Generation as a Step Functions state machine: persisting a Course (PENDING) emits `curriculum.requested` to EventBridge, whose rule triggers a Standard state machine — deduce-needs → generate-course → a **Map state** over lessons (generate-lesson → generate-challenge) → persist artifacts to S3 + metadata to DocumentDB → flip PENDING→READY → notify via SNS/Web-Push/SSE — with a retry + `failed_generations` dead-letter branch.*
 
 - **Mentor chat is synchronous** and deliberately *not* behind Step Functions — it needs
   sub-second time-to-first-token. On a "build me a course" intent it persists the course

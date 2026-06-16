@@ -20,19 +20,8 @@ notably, **no off-the-shelf i18n library and no static translation files** anywh
 The first two are AI translation with caching; the third is generation-in-language. We
 take them in turn.
 
-> 🎨 **FIGURE 15.1 — The translation pipeline**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A diagram on white with indigo accent, three lanes. Lane 1 'UI strings': a React
-> component calls t('Save') → 'i18n registry (Set of English strings)' → batched 'POST
-> /i18n/translate' → 'SHA-256 hash' → cylinder 'UiTranslation (global cache)'; miss →
-> 'aiClient.translateStrings (batch of 50)'. Lane 2 'Lesson content': 'POST
-> /lessons/:id/translate' → 'extractTranslatable (branch on kind: body, PROGRAMMING
-> description, MATH problemLatex prose, MCQ prompt+option text)' → markdown fields to
-> 'translateMarkdown', short labels to 'translateStrings' → cylinder 'LessonTranslation
-> (per lesson+language)'. Lane 3 'Mentor': 'buildLanguageInstruction → system prompt:
-> reply in {language}, keep code & LaTeX verbatim'. Bottom band: 'English is always a
-> no-op — never cached, never sent to AI'. Show a small RTL flag note: '<html dir> flips
-> layout; code/math pinned LTR'. Hairline."
+![The translation pipeline](../figures/figure-15-1.png)
+*Figure 15.1 — The translation pipeline, three lanes: **UI strings** (`t('Save')` → registry → `POST /i18n/translate` → SHA-256 → `UiTranslation` global cache, misses go to `translateStrings`), **lesson content** (`POST /lessons/:id/translate` → kind-aware `extractTranslatable` → `LessonTranslation` per lesson+language), and the **mentor** (a reply-in-`{language}` system instruction). English is always a no-op, and code/math stay pinned LTR even when `<html dir>` flips.*
 
 ## 15.2 The locale catalogue
 

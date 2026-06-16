@@ -27,15 +27,8 @@ system at — which is distinct from the fourth, the specialized lesson-hint end
 **OpenAI-compatible** endpoint that the backend's `OwnModelAIClient` calls exactly like
 DeepSeek.
 
-> 🎨 **FIGURE 19.1 — Self-hosted model serving**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A serving diagram on dark navy. Left: the Express API box containing 'OwnModelAIClient'.
-> An arrow labelled 'HTTPS, private IP, OpenAI-compatible :8000/v1/chat/completions' to a
-> box 'EC2 g4dn.xlarge (NVIDIA T4 16GB)' containing a Docker container 'vllm/vllm-openai'
-> with two stacked layers: 'Base: Qwen2.5-Coder-3B (fp16)' and 'LoRA adapter:
-> sigmaloop-coder'. A dashed arrow from OwnModelAIClient down to a cloud 'Gemini
-> (automatic fallback, 60s cooldown)'. Annotate: '~$0.53/hr on-demand; stop when idle; EBS
-> model cache persists ~$8/mo'. Indigo API, orange GPU box, blue fallback cloud. Hairline."
+![Self-hosted model serving](../figures/figure-19-1.png)
+*Figure 19.1 — Self-hosted model serving: the Express API's `OwnModelAIClient` calls an OpenAI-compatible endpoint (`:8000/v1/chat/completions`) on an EC2 g4dn.xlarge (NVIDIA T4 16 GB) running a `vllm/vllm-openai` container — base Qwen2.5-Coder-3B (fp16) + the `sigmaloop-coder` LoRA adapter — with Gemini as the automatic fallback (60s cooldown). ~$0.53/hr on-demand, stopped when idle; the EBS model cache persists for ~$8/mo.*
 
 ## 19.3 The runbook (condensed)
 

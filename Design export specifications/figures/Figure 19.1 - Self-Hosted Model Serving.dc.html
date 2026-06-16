@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 19.1 — Self-Hosted Model Serving" style="width: 1080px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 34px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 19 · Self-Hosted Model Serving</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">Self-Hosted Model Serving</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 19.1</div>
+    </div>
+
+    <div style="display:flex; align-items:flex-start; gap:0;">
+
+      <!-- left: Express API -->
+      <div style="width: 280px; flex-shrink:0;">
+        <div style="border:1.5px solid rgba(124,58,237,0.4); border-radius:12px; background:rgba(124,58,237,0.05); padding:18px;">
+          <div style="font-size:14px; font-weight:600; color:#4338ca; margin-bottom:13px;">Express API Server</div>
+          <div style="padding:13px 15px; border:1px solid rgba(124,58,237,0.45); border-radius:8px; background:rgba(124,58,237,0.1);">
+            <div style="font-family:'Geist Mono',monospace; font-size:13px; color:#4f46e5; font-weight:500;">OwnModelAIClient</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- main arrow -->
+      <div style="flex:1; min-width:130px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top:40px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#9ca3af; text-align:center; line-height:1.6; margin-bottom:8px;">HTTPS · private VPC IP<br><span style="color:#6b7280;">:8000/v1/chat/completions</span></div>
+        <svg width="100%" height="16" viewBox="0 0 140 16" preserveAspectRatio="none" style="max-width:150px;"><line x1="0" y1="8" x2="130" y2="8" stroke="#cbd5e1" stroke-width="2"/><path d="M122 3 L134 8 L122 13" stroke="#cbd5e1" stroke-width="2" fill="none"/></svg>
+      </div>
+
+      <!-- right: EC2 GPU -->
+      <div style="width: 380px; flex-shrink:0; border:1.5px solid rgba(245,158,11,0.45); border-radius:12px; background:rgba(245,158,11,0.04); padding:18px;">
+        <div style="display:flex; align-items:center; gap:9px; margin-bottom:14px;">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="3" width="10" height="10" rx="1.5" stroke="#d97706" stroke-width="1.3"/><path d="M5.5 0.5 V3 M10.5 0.5 V3 M5.5 13 V15.5 M10.5 13 V15.5 M0.5 5.5 H3 M0.5 10.5 H3 M13 5.5 H15.5 M13 10.5 H15.5" stroke="#d97706" stroke-width="1.3"/></svg>
+          <span style="font-size:14px; font-weight:600; color:#d97706;">EC2 g4dn.xlarge</span>
+          <span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#b45309;">NVIDIA T4 · 16GB</span>
+        </div>
+        <div style="border:1px dashed rgba(245,158,11,0.4); border-radius:9px; padding:12px;">
+          <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:0.5px; color:#b45309; margin-bottom:11px;">docker · vllm/vllm-openai</div>
+          <div style="padding:11px 14px; border:1px solid rgba(124,58,237,0.5); border-radius:7px; background:rgba(124,58,237,0.1); margin-bottom:8px;">
+            <div style="font-size:12.5px; font-weight:500; color:#4338ca;">LoRA adapter</div>
+            <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5; margin-top:2px;">sigmaloop-coder</div>
+          </div>
+          <div style="padding:11px 14px; border:1px solid rgba(107,114,128,0.4); border-radius:7px; background:#f8fafc;">
+            <div style="font-size:12.5px; font-weight:500; color:#475569;">Base model</div>
+            <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#9ca3af; margin-top:2px;">Qwen2.5-Coder-3B · fp16</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- fallback -->
+    <div style="display:flex; align-items:flex-start; gap:0; margin-top:8px;">
+      <div style="width:280px; flex-shrink:0; display:flex; flex-direction:column; align-items:center;">
+        <svg width="13" height="40" viewBox="0 0 13 40" fill="none"><line x1="6.5" y1="0" x2="6.5" y2="31" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M2 29 L6.5 36 L11 29" stroke="#cbd5e1" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div style="font-family:'Geist Mono',monospace; font-size:10px; color:#2563eb; margin:6px 0 10px; text-align:center;">automatic fallback<br>on timeout · 60s cooldown</div>
+        <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:10px; padding:14px; border:1px solid rgba(59,130,246,0.35); border-radius:11px; background:rgba(59,130,246,0.05);">
+          <svg width="56" height="36" viewBox="0 0 56 36" fill="none"><path d="M15 31 C7 31 3 25 6 19 C4 13 11 8 17 12 C19 5 30 4 33 11 C41 7 49 12 47 19 C55 20 56 30 46 31 Z" stroke="#3b82f6" stroke-width="1.4" fill="rgba(59,130,246,0.08)" stroke-linejoin="round"/></svg>
+          <div style="text-align:center;"><div style="font-size:13px; font-weight:600; color:#2563eb;">Gemini AI API</div><div style="font-size:11px; color:#2563eb; margin-top:2px;">managed fallback</div></div>
+        </div>
+      </div>
+      <div style="flex:1;"></div>
+    </div>
+
+    <!-- cost annotation -->
+    <div style="margin-top:24px; border:1px solid #e5e7eb; border-radius:11px; background:#f8fafc; padding:15px 20px; display:flex; align-items:center; gap:24px;">
+      <span style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:1.5px; color:#94a3b8; text-transform:uppercase;">Cost profile</span>
+      <span style="font-size:13px; color:#475569;"><span style="font-family:'Geist Mono',monospace; color:#16a34a;">~$0.53/hr</span> on-demand</span>
+      <span style="color:#cbd5e1;">·</span>
+      <span style="font-size:13px; color:#475569;">stop when idle</span>
+      <span style="color:#cbd5e1;">·</span>
+      <span style="font-size:13px; color:#475569;">EBS model cache persists <span style="font-family:'Geist Mono',monospace; color:#16a34a;">~$8/mo</span></span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 19.1 — Self-Hosted Model Serving</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1180, &quot;height&quot;: 700}}"></script>
+</body>
+</html>

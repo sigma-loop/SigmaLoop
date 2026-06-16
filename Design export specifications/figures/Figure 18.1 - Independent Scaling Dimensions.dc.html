@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 18.1 — Independent Scaling Dimensions" style="width: 1160px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 18 · Scaling</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">Independent Scaling Dimensions</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 18.1</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:18px;">
+
+      <!-- Col 1 API -->
+      <div style="border:1px solid rgba(124,58,237,0.35); border-radius:12px; background:rgba(124,58,237,0.03); padding:18px; display:flex; flex-direction:column;">
+        <div style="font-size:14px; font-weight:600; color:#4338ca;">Express API</div>
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#6366f1; margin-top:3px;">Fargate</div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:30px 0; min-height:150px;">
+          <div style="width:26px;height:32px;border:1px solid rgba(124,58,237,0.5);border-radius:5px;background:rgba(124,58,237,0.12);"></div>
+          <div style="width:26px;height:32px;border:1px solid rgba(124,58,237,0.5);border-radius:5px;background:rgba(124,58,237,0.12);"></div>
+          <span style="color:#cbd5e1;">→</span>
+          <div style="width:26px;height:32px;border:1px dashed rgba(124,58,237,0.45);border-radius:5px;"></div>
+          <div style="width:26px;height:32px;border:1px dashed rgba(124,58,237,0.35);border-radius:5px;"></div>
+          <span style="font-family:'Geist Mono',monospace; font-size:13px; color:#4f46e5;">N</span>
+        </div>
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#4f46e5; border:1px solid rgba(124,58,237,0.3); border-radius:6px; padding:8px 10px; text-align:center;">ALBRequestCountPerTarget</div>
+      </div>
+
+      <!-- Col 2 Judge0 -->
+      <div style="border:1px solid rgba(245,158,11,0.35); border-radius:12px; background:rgba(245,158,11,0.03); padding:18px; display:flex; flex-direction:column;">
+        <div style="font-size:14px; font-weight:600; color:#d97706;">Judge0 Sandbox</div>
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#b45309; margin-top:3px;">ECS-on-EC2 ASG</div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:18px 0; min-height:150px;">
+          <div style="display:flex; gap:5px;">
+            <div style="width:22px;height:26px;border:1px solid rgba(245,158,11,0.5);border-radius:4px;background:rgba(245,158,11,0.12);"></div>
+            <div style="width:22px;height:26px;border:1px solid rgba(245,158,11,0.5);border-radius:4px;background:rgba(245,158,11,0.12);"></div>
+            <div style="width:22px;height:26px;border:1px solid rgba(245,158,11,0.4);border-radius:4px;background:rgba(245,158,11,0.07);"></div>
+            <div style="width:22px;height:26px;border:1px dashed rgba(245,158,11,0.4);border-radius:4px;"></div>
+            <div style="width:22px;height:26px;border:1px dashed rgba(245,158,11,0.4);border-radius:4px;"></div>
+            <div style="width:22px;height:26px;border:1px dashed rgba(245,158,11,0.4);border-radius:4px;"></div>
+          </div>
+          <div style="font-family:'Geist Mono',monospace; font-size:10px; color:#b45309;">2 → 6 · t3.medium</div>
+          <div style="margin-top:6px; padding:6px 9px; border:1px dashed rgba(124,58,237,0.4); border-radius:6px; font-family:'Geist Mono',monospace; font-size:9.5px; color:#4f46e5;">λ poll /system_info</div>
+        </div>
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#d97706; border:1px solid rgba(245,158,11,0.3); border-radius:6px; padding:8px 10px; text-align:center;">CPU + PendingSubmissions</div>
+      </div>
+
+      <!-- Col 3 Generation -->
+      <div style="border:1px solid rgba(59,130,246,0.35); border-radius:12px; background:rgba(59,130,246,0.03); padding:18px; display:flex; flex-direction:column;">
+        <div style="font-size:14px; font-weight:600; color:#2563eb;">Generation</div>
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#2563eb; margin-top:3px;">Step Functions + λ</div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:24px 0; min-height:150px;">
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px;">
+            <div style="width:24px;height:24px;border:1px solid rgba(124,58,237,0.5);border-radius:5px;background:rgba(124,58,237,0.12);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#4f46e5;">λ</div>
+            <div style="width:24px;height:24px;border:1px solid rgba(124,58,237,0.5);border-radius:5px;background:rgba(124,58,237,0.12);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#4f46e5;">λ</div>
+            <div style="width:24px;height:24px;border:1px solid rgba(124,58,237,0.45);border-radius:5px;background:rgba(124,58,237,0.09);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#6366f1;">λ</div>
+            <div style="width:24px;height:24px;border:1px solid rgba(124,58,237,0.45);border-radius:5px;background:rgba(124,58,237,0.09);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#6366f1;">λ</div>
+            <div style="width:24px;height:24px;border:1px dashed rgba(124,58,237,0.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#94a3b8;">λ</div>
+            <div style="width:24px;height:24px;border:1px dashed rgba(124,58,237,0.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#94a3b8;">λ</div>
+            <div style="width:24px;height:24px;border:1px dashed rgba(124,58,237,0.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#94a3b8;">λ</div>
+            <div style="width:24px;height:24px;border:1px dashed rgba(124,58,237,0.4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:10px;color:#94a3b8;">λ</div>
+          </div>
+        </div>
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#2563eb; border:1px solid rgba(59,130,246,0.3); border-radius:6px; padding:8px 10px; text-align:center;">Map + λ concurrency</div>
+      </div>
+
+      <!-- Col 4 Data -->
+      <div style="border:1px solid rgba(34,197,94,0.35); border-radius:12px; background:rgba(34,197,94,0.03); padding:18px; display:flex; flex-direction:column;">
+        <div style="font-size:14px; font-weight:600; color:#16a34a;">Database</div>
+        <div style="font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a; margin-top:3px;">DocumentDB</div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; gap:10px; padding:18px 0; min-height:150px;">
+          <svg width="46" height="58" viewBox="0 0 46 58" fill="none"><path d="M3 10 V48 C3 53 12 56 23 56 C34 56 43 53 43 48 V10" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.1)"/><ellipse cx="23" cy="10" rx="20" ry="7" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.14)"/></svg>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <svg width="26" height="32" viewBox="0 0 26 32" fill="none"><path d="M2 6 V26 C2 29 6 31 13 31 C20 31 24 29 24 26 V6" stroke="rgba(34,197,94,0.5)" stroke-width="1.2" fill="rgba(34,197,94,0.05)"/><ellipse cx="13" cy="6" rx="11" ry="4" stroke="rgba(34,197,94,0.5)" stroke-width="1.2"/></svg>
+            <svg width="26" height="32" viewBox="0 0 26 32" fill="none"><path d="M2 6 V26 C2 29 6 31 13 31 C20 31 24 29 24 26 V6" stroke="rgba(34,197,94,0.5)" stroke-width="1.2" fill="rgba(34,197,94,0.05)"/><ellipse cx="13" cy="6" rx="11" ry="4" stroke="rgba(34,197,94,0.5)" stroke-width="1.2"/></svg>
+          </div>
+        </div>
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#16a34a; border:1px solid rgba(34,197,94,0.3); border-radius:6px; padding:8px 10px; text-align:center;">read replicas + instance size</div>
+      </div>
+
+    </div>
+
+    <!-- banner -->
+    <div style="margin-top:20px; border:1px solid rgba(45,212,191,0.3); border-radius:11px; background:rgba(45,212,191,0.04); padding:15px 20px; display:flex; align-items:center; gap:12px;">
+      <span style="font-size:15px; color:#0d9488;">▢</span>
+      <span style="font-size:13.5px; color:#475569;"><span style="font-weight:600; color:#0f766e;">No app-level queue</span> — provisioned for classroom load, not contest load.</span>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 18.1 — Independent Scaling Dimensions</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1260, &quot;height&quot;: 620}}"></script>
+</body>
+</html>

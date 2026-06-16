@@ -10,18 +10,8 @@ mathematics by an **LLM** — and even there, behind a confidence gate. This cha
 all three graders, the serialization that keeps answers secret until grading, and the
 progress engine they all feed.
 
-> 🎨 **FIGURE 14.1 — Three graders, one progress engine**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A diagram on dark navy, three parallel grading lanes converging on one engine. Lane 1
-> (orange): 'PROGRAMMING — POST /execution/submit → Judge0 sandbox runs all test cases →
-> pass iff status id 3 → ProgrammingSubmission'. Lane 2 (blue): 'MATH — POST /math/submit
-> → LLM gradeMath(problem, canonical, studentLatex) → {correct, equivalentForm,
-> rationale, confidence} → confidence<0.7 ? PENDING_REVIEW : PASSED/FAILED'. Lane 3
-> (green): 'MCQ — POST /mcq/submit → set-equality(selected, correctIds) → MCQSubmission'.
-> All three arrow into a central box 'progress.service.markLessonComplete — lesson done
-> only when ALL challenges PASSED → +50 XP'. Label the determinism: lanes 1 and 3 tagged
-> 'DETERMINISTIC', lane 2 tagged 'LLM (confidence-gated)'. Hairline arrows, a Status enum
-> chip 'PENDING · RUNNING · PASSED · FAILED · PENDING_REVIEW'."
+![Three graders, one progress engine](../figures/figure-14-1.png)
+*Figure 14.1 — Three graders, one progress engine: PROGRAMMING (`POST /execution/submit` → Judge0 runs all test cases, pass iff status id 3) and MCQ (`POST /mcq/submit` → set-equality) are **deterministic**; MATH (`POST /math/submit` → `gradeMath` → `{correct, equivalentForm, rationale, confidence}`, `confidence<0.7` ⇒ PENDING_REVIEW) is the one **LLM, confidence-gated** lane. All three feed `progress.service`, which completes a lesson only when every challenge is PASSED (+50 XP).*
 
 A shared `Status` enum spans all three: `PENDING | RUNNING | PASSED | FAILED |
 PENDING_REVIEW`. Only the math path ever produces `PENDING_REVIEW`.

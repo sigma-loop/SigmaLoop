@@ -51,17 +51,8 @@ is Appendix B.
 The admin Settings panel (`PUT /admin/settings`) can override most tunables without a
 restart. Three pieces collaborate.
 
-> 🎨 **FIGURE 7.1 — The runtime settings overlay**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A horizontal flow diagram on white with indigo accents. Left: 'Admin Settings UI'
-> sends 'PUT /admin/settings {key,value}'. Middle: a box 'settings.service.ts' with
-> three steps stacked — '1. validate against settingsRegistry', '2. upsert into Mongo
-> AppSettings', '3. applyToConfig: setByPath(config, def.path, value) — MUTATE IN
-> PLACE'. An arrow from step 3 to a glowing box 'live config singleton'. Below, a
-> dashed arrow labelled 'if reresolveAI flag' to a box 'rebuild AIClient (Proxy swaps
-> activeClient)'. Right: many small consumers (controllers, worker, ai.service) all
-> reading 'config.x.y at call-time'. Show secrets as a separate locked box labelled
-> 'env-only, never in Mongo, shown as configured/not-configured'. Flat, hairline."
+![The runtime settings overlay](../figures/figure-07-1.png)
+*Figure 7.1 — The runtime settings overlay: `PUT /admin/settings` flows through `settings.service.ts` (validate against the registry → upsert `AppSettings` → `applyToConfig` mutates the live config singleton in place), optionally rebuilding the `AIClient` proxy; controllers/worker/ai.service read `config.x.y` at call-time, while secrets stay env-only and are shown only as configured / not-configured.*
 
 ### 7.2.1 The registry — `config/settingsRegistry.ts`
 

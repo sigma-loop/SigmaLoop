@@ -29,16 +29,8 @@ would be malformed and the conversation would break.
 `sendMessage` runs a bounded ReAct-style loop, capped at `MAX_ITERATIONS = 8` model turns
 and `MAX_MUTATIONS = 5` state-changing tool calls per user message.
 
-> 🎨 **FIGURE 13.1 — The mentor tool loop**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A loop/cycle diagram on dark navy. Start: 'User message saved'. Into a cycle (max 8
-> iterations): box 'aiClient.chat(systemPrompt, history, pending)' → 'extractAction:
-> parse last [[ACTION:{...}]]' → decision diamond 'action present?'. If YES → 'executeTool
-> (ownership-scoped)' → 'feed [[TOOL_RESULT]] or [[TOOL_ERROR]] back as next user turn' →
-> back to chat. If NO → 'finalText = cleaned reply, exit loop'. Side annotations: 'each
-> action logged as MentorAction', 'MAX_MUTATIONS=5 → synthetic stop', 'provider failure
-> after an action → finish with: Here's what I did'. End: 'persist final assistant
-> message + return actions[]'. Indigo boxes, green for DB writes, hairline arrows."
+![The mentor tool loop](../figures/figure-13-1.png)
+*Figure 13.1 — The mentor tool loop: a bounded ReAct cycle (max 8 iterations) — `aiClient.chat` → parse the last `[[ACTION:{…}]]` → if present, run the ownership-scoped tool and feed `[[TOOL_RESULT]]`/`[[TOOL_ERROR]]` back as the next turn; if not, exit with the cleaned reply. Every mutation is logged as a `MentorAction` (capped at `MAX_MUTATIONS=5`), and the final message returns `actions[]`.*
 
 In words (the live code):
 

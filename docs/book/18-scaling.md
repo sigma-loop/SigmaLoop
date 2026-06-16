@@ -10,17 +10,8 @@ about what *not* to build.
 
 ## 18.1 The four things that scale independently
 
-> 🎨 **FIGURE 18.1 — Independent scaling dimensions**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A diagram on dark navy with four independent scaling 'columns'. Column 1 'API
-> (Fargate)': scales on ALBRequestCountPerTarget, small box growing 2→N. Column 2 'Judge0
-> (ECS-on-EC2 ASG)': scales on CPU + custom metric PendingSubmissions, boxes growing 2→6
-> t3.medium, a sidecar Lambda polling /system_info feeding a CloudWatch metric. Column 3
-> 'Generation (Step Functions + Lambda)': scales by Map-state concurrency + Lambda
-> concurrency, many small Lambda icons fanning out per lesson. Column 4 'Data
-> (DocumentDB)': scales by instance size + read replicas, a green cylinder. Below, a
-> banner: 'No app-level queue — classroom load, not contest load'. Brand palette, hairline
-> arrows, each column labeled with its scaling signal."
+![Independent scaling dimensions](../figures/figure-18-1.png)
+*Figure 18.1 — Four dimensions that scale independently, each on its own signal: **API** (Fargate, `ALBRequestCountPerTarget`), **Judge0** (ECS-on-EC2 ASG, CPU + a custom `PendingSubmissions` metric, 2→6 t3.medium), **Generation** (Step Functions + Lambda, Map-state + Lambda concurrency fanning out per lesson), and **Data** (DocumentDB, instance size + read replicas) — with no app-level queue, because this is classroom load, not contest load.*
 
 | Tier | Scaling signal | Range |
 |------|----------------|-------|

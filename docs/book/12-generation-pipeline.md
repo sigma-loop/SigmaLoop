@@ -21,20 +21,8 @@ summary + challenge specs, no body, no challenges), fully materializes just the 
 lesson, and flips the job to `READY`. The remaining lessons are materialized on first
 open. Every model call goes through `aiClient` (Chapter 11).
 
-> 🎨 **FIGURE 12.1 — The lazy generation pipeline**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A detailed pipeline diagram on dark navy. Left: four trigger sources stacked
-> (Onboarding wizard, POST /curriculum/request, Mentor tool create_course, Course
-> generate-more) all pointing to a single green cylinder 'CurriculumJob (status:
-> PENDING)'. Middle: a box 'Curriculum Worker (polls every 5s)' with an atomic-claim
-> badge 'findOneAndUpdate PENDING→GENERATING'. From it, a vertical pipeline for
-> NEW_COURSE: '1. generateCourseOutline (≥12 lessons)' → '2. Course.create
-> (GENERATING)' → '3. write ALL lessons as STUBs (insertMany)' → '4. materialize ONLY
-> lesson 1' → '5. status READY'. Show stubs as faded grey lesson cards and the first
-> lesson as a solid indigo card. Right: a separate later flow 'Learner opens lesson N →
-> POST /lessons/N/generate → materializeLesson: body + challenges generated
-> concurrently → status READY'. Use a clock icon on async parts and a small AI-chip icon
-> on each model call. Hairline arrows, labels on each step."
+![The lazy generation pipeline](../figures/figure-12-1.png)
+*Figure 12.1 — The lazy generation pipeline: four trigger sources (onboarding, `POST /curriculum/request`, the mentor's `create_course`, course generate-more) feed one `CurriculumJob` queue; the worker atomically claims a job (`findOneAndUpdate PENDING→GENERATING`) and runs the NEW_COURSE pipeline — outline ≥12 lessons → create Course → write all lessons as stubs → materialize only lesson 1 → READY — with the remaining lessons materialized lazily on first open.*
 
 ## 12.2 The job contract
 

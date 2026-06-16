@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 12.1 — Lazy Generation Pipeline" style="width: 1200px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 12 · Curriculum Generation Pipeline</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">The Lazy Generation Pipeline</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 12.1</div>
+    </div>
+
+    <div style="display: flex; align-items: flex-start; gap: 0;">
+
+      <!-- LEFT: triggers + job -->
+      <div style="width: 268px; flex-shrink: 0;">
+        <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:10px;">Triggers</div>
+        <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 7px; background: #f8fafc;">
+          <div style="padding: 9px 11px; border: 1px solid rgba(124,58,237,0.3); border-radius: 6px; background: rgba(124,58,237,0.05); color: #4f46e5; font-size: 12px;">Onboarding wizard</div>
+          <div style="padding: 9px 11px; border: 1px solid rgba(124,58,237,0.3); border-radius: 6px; background: rgba(124,58,237,0.05); color: #4f46e5; font-size: 12px; font-family:'Geist Mono',monospace;"><span style="color:#16a34a;">POST</span> /curriculum/request</div>
+          <div style="padding: 9px 11px; border: 1px solid rgba(124,58,237,0.3); border-radius: 6px; background: rgba(124,58,237,0.05); color: #4f46e5; font-size: 12px;">Mentor tool <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5;">create_course</span></div>
+          <div style="padding: 9px 11px; border: 1px solid rgba(124,58,237,0.3); border-radius: 6px; background: rgba(124,58,237,0.05); color: #4f46e5; font-size: 12px;">Course “generate-more”</div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; padding:8px 0;"><span style="font-family:'Geist Mono',monospace; font-size:10px; color:#16a34a;">enqueue</span><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><line x1="6" y1="0" x2="6" y2="13" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 11 L6 17 L10 11" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <!-- cylinder job -->
+        <div style="display:flex; align-items:center; gap:14px; border:1px solid rgba(34,197,94,0.35); border-radius:10px; background:rgba(34,197,94,0.05); padding:14px 16px;">
+          <svg width="40" height="46" viewBox="0 0 40 46" fill="none" style="flex-shrink:0;"><path d="M3 9 V37 C3 41 11 44 20 44 C29 44 37 41 37 37 V9" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.08)"/><ellipse cx="20" cy="9" rx="17" ry="6" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.12)"/></svg>
+          <div><div style="color:#16a34a; font-size:14px; font-weight:600;">CurriculumJob</div><div style="font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a; margin-top:3px; border:1px solid rgba(34,197,94,0.4); border-radius:3px; padding:1px 5px; display:inline-block;">PENDING</div></div>
+        </div>
+      </div>
+
+      <!-- arrow -->
+      <div style="width: 70px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 280px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:9.5px; color:#94a3b8; margin-bottom:5px;">claim</span>
+        <svg width="56" height="13" viewBox="0 0 56 13"><line x1="0" y1="6.5" x2="48" y2="6.5" stroke="#cbd5e1" stroke-width="1.5"/><path d="M42 2 L50 6.5 L42 11" stroke="#cbd5e1" stroke-width="1.5" fill="none"/></svg>
+      </div>
+
+      <!-- CENTER: worker + pipeline -->
+      <div style="width: 408px; flex-shrink: 0; border: 1.5px solid rgba(124,58,237,0.4); border-radius: 12px; background: rgba(124,58,237,0.04); padding: 16px;">
+        <div style="display:flex; align-items:center; gap:9px; margin-bottom:6px;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#4f46e5" stroke-width="1.3"/><path d="M8 4.5 V8 L10.3 9.6" stroke="#4f46e5" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span style="font-size:14px; font-weight:600; color:#4338ca;">Curriculum Worker</span>
+          <span style="font-size:11.5px; color:#6b7280;">polls 5s</span>
+        </div>
+        <div style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#6366f1; border:1px dashed rgba(124,58,237,0.35); border-radius:5px; padding:5px 9px; margin-bottom:14px;">findOneAndUpdate · PENDING → GENERATING</div>
+
+        <!-- pipeline -->
+        <div style="display:flex; align-items:center; gap:9px; padding:8px 11px; border:1px solid rgba(124,58,237,0.3); border-radius:7px; background:rgba(124,58,237,0.05); margin-bottom:8px;">
+          <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;border:1px solid rgba(124,58,237,0.5);color:#4f46e5;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">1</span>
+          <span style="font-size:13px; color:#4f46e5;">generateCourseOutline</span>
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="margin-left:auto;"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="#4f46e5" stroke-width="1.2"/><path d="M6 1.5 V4 M10 1.5 V4 M6 12 V14.5 M10 12 V14.5 M1.5 6 H4 M1.5 10 H4 M12 6 H14.5 M12 10 H14.5" stroke="#4f46e5" stroke-width="1.2"/></svg>
+        </div>
+        <div style="display:flex; align-items:center; gap:9px; padding:8px 11px; border:1px solid rgba(34,197,94,0.3); border-radius:7px; background:rgba(34,197,94,0.04); margin-bottom:8px;">
+          <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;border:1px solid rgba(34,197,94,0.5);color:#16a34a;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">2</span>
+          <span style="font-size:13px; color:#15803d;">Course.create <span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#16a34a;">GENERATING</span></span>
+        </div>
+        <!-- step 3 stubs -->
+        <div style="padding:10px 11px; border:1px solid rgba(124,58,237,0.3); border-radius:7px; background:rgba(124,58,237,0.05); margin-bottom:8px;">
+          <div style="display:flex; align-items:center; gap:9px; margin-bottom:9px;">
+            <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;border:1px solid rgba(124,58,237,0.5);color:#4f46e5;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">3</span>
+            <span style="font-size:13px; color:#4f46e5;">write ALL lessons as STUBs <span style="font-family:'Geist Mono',monospace; font-size:10.5px; color:#6b7280;">insertMany</span></span>
+          </div>
+          <div style="display:flex; gap:6px; padding-left:27px;">
+            <div style="flex:1; padding:7px 6px; border:1px dashed rgba(107,114,128,0.4); border-radius:5px; text-align:center; color:#94a3b8; font-size:10px;">stub</div>
+            <div style="flex:1; padding:7px 6px; border:1px dashed rgba(107,114,128,0.4); border-radius:5px; text-align:center; color:#94a3b8; font-size:10px;">stub</div>
+            <div style="flex:1; padding:7px 6px; border:1px dashed rgba(107,114,128,0.4); border-radius:5px; text-align:center; color:#94a3b8; font-size:10px;">stub</div>
+            <div style="flex:0.6; padding:7px 6px; text-align:center; color:#94a3b8; font-size:11px;">···</div>
+          </div>
+        </div>
+        <!-- step 4 active -->
+        <div style="padding:10px 11px; border:1px solid rgba(124,58,237,0.5); border-radius:7px; background:rgba(124,58,237,0.1); margin-bottom:8px; box-shadow:0 0 0 1px rgba(124,58,237,0.15);">
+          <div style="display:flex; align-items:center; gap:9px; margin-bottom:9px;">
+            <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;background:#7c3aed;color:#fff;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">4</span>
+            <span style="font-size:13px; color:#4338ca;">materialize ONLY lesson 1</span>
+          </div>
+          <div style="margin-left:27px; padding:9px 12px; border:1px solid rgba(124,58,237,0.6); border-radius:6px; background:rgba(124,58,237,0.18); color:#4338ca; font-size:12px; font-weight:500;">Lesson 1 · full body + challenges</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:9px; padding:8px 11px; border:1px solid rgba(34,197,94,0.4); border-radius:7px; background:rgba(34,197,94,0.08);">
+          <span style="width:18px;height:18px;flex-shrink:0;border-radius:50%;border:1px solid rgba(34,197,94,0.5);color:#16a34a;font-family:'Geist Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;">5</span>
+          <span style="font-size:13px; color:#16a34a; font-weight:500;">status <span style="font-family:'Geist Mono',monospace;">READY</span></span>
+        </div>
+      </div>
+
+      <!-- right divider arrow -->
+      <div style="width: 72px; flex-shrink: 0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding-top: 200px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:9.5px; color:#94a3b8; margin-bottom:5px;">on demand</span>
+        <svg width="56" height="13" viewBox="0 0 56 13"><line x1="0" y1="6.5" x2="48" y2="6.5" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="4 4"/><path d="M42 2 L50 6.5 L42 11" stroke="#cbd5e1" stroke-width="1.5" fill="none"/></svg>
+      </div>
+
+      <!-- RIGHT: lazy materialization -->
+      <div style="flex: 1; min-width: 250px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; padding: 16px;">
+        <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; margin-bottom:14px;">Later · lazy load</div>
+        <div style="padding:11px 13px; border:1px solid rgba(107,114,128,0.3); border-radius:7px; background:rgba(107,114,128,0.05); color:#475569; font-size:12.5px;">Learner opens lesson N <span style="color:#6b7280; font-size:11px;">(stub)</span></div>
+        <div style="display:flex; justify-content:center; padding:7px 0;"><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><line x1="6" y1="0" x2="6" y2="13" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 11 L6 17 L10 11" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:11px 13px; border:1px solid rgba(59,130,246,0.35); border-radius:7px; background:rgba(59,130,246,0.05); font-family:'Geist Mono',monospace; font-size:12px; color:#2563eb;"><span style="color:#16a34a;">POST</span> /lessons/:id/generate</div>
+        <div style="display:flex; justify-content:center; padding:7px 0;"><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><line x1="6" y1="0" x2="6" y2="13" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 11 L6 17 L10 11" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:11px 13px; border:1px solid rgba(124,58,237,0.4); border-radius:7px; background:rgba(124,58,237,0.07);">
+          <div style="display:flex; align-items:center; gap:8px;"><span style="font-size:13px; color:#4338ca; font-weight:500;">materializeLesson</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="margin-left:auto;"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="#4f46e5" stroke-width="1.2"/><path d="M6 1.5 V4 M10 1.5 V4 M6 12 V14.5 M10 12 V14.5 M1.5 6 H4 M1.5 10 H4 M12 6 H14.5 M12 10 H14.5" stroke="#4f46e5" stroke-width="1.2"/></svg></div>
+          <div style="font-size:11.5px; color:#6366f1; margin-top:5px;">body + challenges, concurrently</div>
+        </div>
+        <div style="display:flex; justify-content:center; padding:7px 0;"><svg width="12" height="20" viewBox="0 0 12 20" fill="none"><line x1="6" y1="0" x2="6" y2="13" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2 11 L6 17 L10 11" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div style="padding:11px 13px; border:1px solid rgba(34,197,94,0.4); border-radius:7px; background:rgba(34,197,94,0.08); color:#16a34a; font-size:13px; font-weight:500;">status <span style="font-family:'Geist Mono',monospace;">READY</span></div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 28px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 12.1 — The Lazy Generation Pipeline</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1300, &quot;height&quot;: 720}}"></script>
+</body>
+</html>

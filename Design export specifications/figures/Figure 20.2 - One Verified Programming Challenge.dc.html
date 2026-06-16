@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 20.2 — One Verified Programming Challenge" style="width: 1200px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 38px 42px 28px; box-shadow: 0 40px 120px rgba(15,20,34,0.18);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 20 · Multi-Agent Future</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">One Verified Programming Challenge</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 20.2</div>
+    </div>
+
+    <div style="position: relative; width: 1080px; height: 420px; margin: 0 auto;">
+
+      <svg viewBox="0 0 1080 420" width="1080" height="420" style="position:absolute; inset:0; pointer-events:none;" fill="none">
+        <defs>
+          <marker id="vc-r" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#cbd5e1" stroke-width="1.4" fill="none"/></marker>
+          <marker id="vc-l" markerWidth="9" markerHeight="9" refX="3" refY="4.5" orient="auto"><path d="M7 1 L2 4.5 L7 8" stroke="#cbd5e1" stroke-width="1.4" fill="none"/></marker>
+          <marker id="vc-loop" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#d97706" stroke-width="1.4" fill="none"/></marker>
+          <marker id="vc-red" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#dc2626" stroke-width="1.4" fill="none"/></marker>
+          <marker id="vc-grn" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#16a34a" stroke-width="1.4" fill="none"/></marker>
+        </defs>
+        <g stroke="#cbd5e1" stroke-width="1.4">
+          <path d="M205 92 L248 92" marker-end="url(#vc-r)"/>
+          <path d="M433 92 L476 92" marker-end="url(#vc-r)"/>
+          <path d="M646 92 L686 92" marker-end="url(#vc-r)"/>
+          <path d="M796 92 L818 92 L818 118 L838 118" marker-end="url(#vc-r)"/>
+          <path d="M760 332 L674 332" marker-end="url(#vc-l)"/>
+          <path d="M470 332 L364 332" marker-end="url(#vc-l)"/>
+        </g>
+        <!-- YES down -->
+        <path d="M920 164 L920 250 L860 250 L860 300" stroke="#16a34a" stroke-width="1.4" marker-end="url(#vc-grn)"/>
+        <!-- NO loop back -->
+        <path d="M920 72 L920 28 L112 28 L112 60" stroke="#d97706" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#vc-loop)"/>
+        <!-- DLQ -->
+        <path d="M955 158 C992 205 982 250 982 296" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#vc-red)"/>
+        <g font-family="Geist Mono, monospace" font-size="11" style="paint-order:stroke" stroke="#ffffff" stroke-width="4">
+          <text x="455" y="22" fill="#d97706">critique &amp; regenerate · max N</text>
+          <text x="872" y="225" fill="#16a34a">YES</text>
+          <text x="996" y="210" fill="#dc2626">exceed N</text>
+        </g>
+      </svg>
+
+      <!-- 1 Problem Author -->
+      <div style="position:absolute; left:20px; top:60px; width:185px; height:64px; border:1px solid #e5e7eb; border-left:3px solid #6366f1; border-radius:9px; background:#fff; padding:11px 14px; box-shadow:0 3px 10px rgba(15,20,34,0.04);">
+        <div style="font-size:13px; font-weight:600; color:#0f1422;">Problem Author</div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">prompt + reference solution</div>
+      </div>
+      <!-- 2 Test-Case Engineer -->
+      <div style="position:absolute; left:248px; top:60px; width:185px; height:64px; border:1px solid #e5e7eb; border-left:3px solid #6366f1; border-radius:9px; background:#fff; padding:11px 14px; box-shadow:0 3px 10px rgba(15,20,34,0.04);">
+        <div style="font-size:13px; font-weight:600; color:#0f1422;">Test-Case Engineer</div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">test set · edge + hidden</div>
+      </div>
+      <!-- 3 Solution Verifier -->
+      <div style="position:absolute; left:476px; top:60px; width:170px; height:64px; border:1px solid #e5e7eb; border-left:3px solid #6366f1; border-radius:9px; background:#fff; padding:11px 14px; box-shadow:0 3px 10px rgba(15,20,34,0.04);">
+        <div style="font-size:13px; font-weight:600; color:#0f1422;">Solution Verifier</div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">submit ref + tests</div>
+      </div>
+      <!-- 4 Judge0 -->
+      <div style="position:absolute; left:686px; top:68px; width:110px; height:48px; border:1.5px solid rgba(245,158,11,0.55); border-radius:9px; background:rgba(245,158,11,0.06); display:flex; align-items:center; justify-content:center;">
+        <span style="font-size:13px; font-weight:600; color:#b45309;">Judge0 run</span>
+      </div>
+      <!-- 5 Diamond -->
+      <div style="position:absolute; left:838px; top:72px; width:165px; height:92px;">
+        <svg viewBox="0 0 165 92" width="165" height="92" style="position:absolute;inset:0;" fill="none"><polygon points="82.5,4 161,46 82.5,88 4,46" stroke="#6366f1" stroke-width="1.5" fill="rgba(99,102,241,0.05)"/></svg>
+        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; font-size:11.5px; color:#4338ca; padding:0 22px;">reference passes ALL tests?</div>
+      </div>
+
+      <!-- 6 Adversary -->
+      <div style="position:absolute; left:760px; top:300px; width:200px; height:64px; border:1px solid #e5e7eb; border-left:3px solid #6366f1; border-radius:9px; background:#fff; padding:11px 14px; box-shadow:0 3px 10px rgba(15,20,34,0.04);">
+        <div style="font-size:13px; font-weight:600; color:#0f1422;">Adversary</div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">checks for trivial solution</div>
+      </div>
+      <!-- 7 Difficulty Calibrator -->
+      <div style="position:absolute; left:470px; top:300px; width:200px; height:64px; border:1px solid #e5e7eb; border-left:3px solid #6366f1; border-radius:9px; background:#fff; padding:11px 14px; box-shadow:0 3px 10px rgba(15,20,34,0.04);">
+        <div style="font-size:13px; font-weight:600; color:#0f1422;">Difficulty Calibrator</div>
+        <div style="font-size:11px; color:#94a3b8; margin-top:3px;">confirms target level</div>
+      </div>
+      <!-- 8 ACCEPT -->
+      <div style="position:absolute; left:150px; top:297px; width:214px; height:70px; border:1.5px solid #16a34a; border-radius:9px; background:rgba(34,197,94,0.06); padding:13px 16px; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-size:14px; font-weight:600; color:#15803d;">ACCEPT</div>
+        <div style="font-size:11.5px; color:#16a34a; margin-top:3px;">persist Challenge → MongoDB</div>
+      </div>
+
+      <!-- DLQ -->
+      <div style="position:absolute; left:900px; top:300px; width:165px; height:64px; border:1px solid rgba(239,68,68,0.5); border-radius:9px; background:rgba(239,68,68,0.05); padding:11px 14px;">
+        <div style="font-size:12.5px; font-weight:600; color:#dc2626;">Exceeded max attempts</div>
+        <div style="font-size:11px; color:#b91c1c; margin-top:3px;">escalate · dead-letter</div>
+      </div>
+
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 20.2 — One Verified Programming Challenge</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1300, &quot;height&quot;: 620}}"></script>
+</body>
+</html>

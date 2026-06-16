@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 2.1 — Four-Layer Architecture" style="position: relative; width: 1180px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <!-- figure header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 2 · Architecture Overview</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">The Four-Layer Architecture</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 2.1</div>
+    </div>
+
+    <!-- CLIENT TIER -->
+    <div style="border: 1px solid rgba(45,212,191,0.28); border-radius: 12px; background: rgba(45,212,191,0.035); padding: 18px 20px;">
+      <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 15px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #0d9488; box-shadow: 0 0 10px #0d9488;"></span>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2.5px; color: #0d9488; text-transform: uppercase;">Client</span>
+        <span style="font-size: 13px; color: #6b7280;">— browser, React 19 single-page app</span>
+      </div>
+      <!-- browser window -->
+      <div style="border: 1px solid rgba(45,212,191,0.2); border-radius: 8px; overflow: hidden; background: #f8fafc;">
+        <div style="display: flex; align-items: center; gap: 7px; padding: 9px 13px; border-bottom: 1px solid rgba(45,212,191,0.14); background: rgba(45,212,191,0.04);">
+          <span style="width: 9px; height: 9px; border-radius: 50%; background: #d97706; opacity: 0.5;"></span>
+          <span style="width: 9px; height: 9px; border-radius: 50%; background: #16a34a; opacity: 0.5;"></span>
+          <span style="width: 9px; height: 9px; border-radius: 50%; background: #6b7280; opacity: 0.5;"></span>
+          <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #94a3b8; margin-left: 8px;">app.sigmaloop.dev</span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; padding: 16px;">
+          <div style="padding: 9px 14px; border: 1px solid rgba(45,212,191,0.35); border-radius: 6px; background: rgba(45,212,191,0.07); color: #0f766e; font-size: 13px; font-weight: 500;">React 19 SPA</div>
+          <div style="padding: 9px 14px; border: 1px solid rgba(45,212,191,0.3); border-radius: 6px; background: rgba(45,212,191,0.05); color: #0f766e; font-size: 13px;">Mentor Chat</div>
+          <div style="padding: 9px 14px; border: 1px solid rgba(45,212,191,0.3); border-radius: 6px; background: rgba(45,212,191,0.05); color: #0f766e; font-size: 13px;">Monaco Editor <span style="font-family:'Geist Mono',monospace; font-size:10px; color:#0f766e;">PROGRAMMING</span></div>
+          <div style="padding: 9px 14px; border: 1px solid rgba(45,212,191,0.3); border-radius: 6px; background: rgba(45,212,191,0.05); color: #0f766e; font-size: 13px;">MathLive + KaTeX <span style="font-family:'Geist Mono',monospace; font-size:10px; color:#0f766e;">MATH</span></div>
+          <div style="padding: 9px 14px; border: 1px dashed rgba(45,212,191,0.4); border-radius: 6px; background: transparent; color: #0f766e; font-family: 'Geist Mono', monospace; font-size: 12px;">JWT in localStorage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- connector -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 0;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #9ca3af; letter-spacing: 0.3px;">HTTPS · REST (JSend)</div>
+      <svg width="14" height="24" viewBox="0 0 14 24" fill="none"><line x1="7" y1="0" x2="7" y2="17" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2.5 15 L7 21 L11.5 15" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <!-- EDGE TIER -->
+    <div style="border: 1px solid rgba(107,114,128,0.4); border-radius: 12px; background: rgba(107,114,128,0.05); padding: 16px 20px;">
+      <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 13px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #9ca3af;"></span>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2.5px; color: #9ca3af; text-transform: uppercase;">Edge</span>
+        <span style="font-size: 13px; color: #6b7280;">— CDN &amp; reverse proxy</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px; padding: 12px 16px; border: 1px solid rgba(107,114,128,0.35); border-radius: 7px; background: #f8fafc;">
+        <span style="font-size: 14px; font-weight: 500; color: #475569;">Nginx / CloudFront</span>
+        <span style="font-size: 12px; color: #6b7280;">static SPA · SPA routing · asset caching</span>
+      </div>
+    </div>
+
+    <!-- connector -->
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 0;">
+      <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #9ca3af; letter-spacing: 0.3px;">proxy → :api</div>
+      <svg width="14" height="24" viewBox="0 0 14 24" fill="none"><line x1="7" y1="0" x2="7" y2="17" stroke="#cbd5e1" stroke-width="1.5"/><path d="M2.5 15 L7 21 L11.5 15" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <!-- APPLICATION TIER -->
+    <div style="border: 1px solid rgba(124,58,237,0.4); border-radius: 12px; background: rgba(124,58,237,0.05); padding: 18px 20px;">
+      <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 16px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #4f46e5; box-shadow: 0 0 10px #7c3aed;"></span>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2.5px; color: #4f46e5; text-transform: uppercase;">Application</span>
+        <span style="font-size: 13px; color: #6b7280;">— Node.js + Express</span>
+      </div>
+
+      <!-- middleware -->
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+        <span style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #6366f1; text-transform: uppercase; width: 88px; flex-shrink: 0;">Middleware</span>
+        <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+          <span style="padding: 6px 12px; border: 1px solid rgba(124,58,237,0.35); border-radius: 5px; background: rgba(124,58,237,0.06); color: #4f46e5; font-size: 12px;">CORS</span>
+          <span style="color: #cbd5e1;">→</span>
+          <span style="padding: 6px 12px; border: 1px solid rgba(124,58,237,0.35); border-radius: 5px; background: rgba(124,58,237,0.06); color: #4f46e5; font-size: 12px;">Body parser</span>
+          <span style="color: #cbd5e1;">→</span>
+          <span style="padding: 6px 12px; border: 1px solid rgba(124,58,237,0.35); border-radius: 5px; background: rgba(124,58,237,0.06); color: #4f46e5; font-size: 12px;">Auth (JWT)</span>
+          <span style="color: #cbd5e1;">→</span>
+          <span style="padding: 6px 12px; border: 1px solid rgba(124,58,237,0.35); border-radius: 5px; background: rgba(124,58,237,0.06); color: #4f46e5; font-size: 12px;">Logger</span>
+        </div>
+      </div>
+
+      <!-- routes -->
+      <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 16px;">
+        <span style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #6366f1; text-transform: uppercase; width: 88px; flex-shrink: 0; padding-top: 6px;">Routes</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">auth</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">users</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">chat</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">curriculum</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">courses</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">lessons</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">challenges</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">execution</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">math</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">mcq</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">i18n</span>
+          <span style="padding: 5px 10px; border: 1px solid rgba(124,58,237,0.22); border-radius: 5px; color: #6366f1; font-family: 'Geist Mono', monospace; font-size: 11px;">admin</span>
+        </div>
+      </div>
+
+      <!-- services -->
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #6366f1; text-transform: uppercase; width: 88px; flex-shrink: 0;">Services</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <span style="padding: 7px 13px; border: 1px solid rgba(124,58,237,0.45); border-radius: 6px; background: rgba(124,58,237,0.1); color: #4338ca; font-size: 12px; font-weight: 500;">AI Service</span>
+          <span style="padding: 7px 13px; border: 1px solid rgba(124,58,237,0.45); border-radius: 6px; background: rgba(124,58,237,0.1); color: #4338ca; font-size: 12px; font-weight: 500;">Curriculum Worker</span>
+          <span style="padding: 7px 13px; border: 1px solid rgba(124,58,237,0.45); border-radius: 6px; background: rgba(124,58,237,0.1); color: #4338ca; font-size: 12px; font-weight: 500;">Judge0 Service</span>
+          <span style="padding: 7px 13px; border: 1px solid rgba(124,58,237,0.45); border-radius: 6px; background: rgba(124,58,237,0.1); color: #4338ca; font-size: 12px; font-weight: 500;">Settings Service</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- three labelled connectors to data tier -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; padding: 9px 0;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #16a34a;">Mongoose</div>
+        <svg width="14" height="24" viewBox="0 0 14 24" fill="none"><line x1="7" y1="0" x2="7" y2="17" stroke="rgba(34,197,94,0.5)" stroke-width="1.5"/><path d="M2.5 15 L7 21 L11.5 15" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #3b82f6;">HTTPS · AIClient</div>
+        <svg width="14" height="24" viewBox="0 0 14 24" fill="none"><line x1="7" y1="0" x2="7" y2="17" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/><path d="M2.5 15 L7 21 L11.5 15" stroke="rgba(59,130,246,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+        <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #d97706;">HTTP :2358 · base64</div>
+        <svg width="14" height="24" viewBox="0 0 14 24" fill="none"><line x1="7" y1="0" x2="7" y2="17" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/><path d="M2.5 15 L7 21 L11.5 15" stroke="rgba(245,158,11,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <!-- DATA & EXTERNAL TIER -->
+    <div style="border: 1px solid #e5e7eb; border-radius: 12px; background: #f8fafc; padding: 18px 20px;">
+      <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 16px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #e5e7eb;"></span>
+        <span style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2.5px; color: #475569; text-transform: uppercase;">Data &amp; External</span>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;">
+
+        <!-- MongoDB -->
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px; border: 1px solid rgba(34,197,94,0.32); border-radius: 9px; background: rgba(34,197,94,0.05);">
+          <svg width="58" height="64" viewBox="0 0 58 64" fill="none">
+            <path d="M3 11 V53 C3 58 16 62 29 62 C42 62 55 58 55 53 V11" stroke="#16a34a" stroke-width="1.5" fill="rgba(34,197,94,0.08)"/>
+            <ellipse cx="29" cy="11" rx="26" ry="9" stroke="#16a34a" stroke-width="1.5" fill="rgba(34,197,94,0.12)"/>
+            <ellipse cx="29" cy="30" rx="26" ry="9" stroke="rgba(34,197,94,0.4)" stroke-width="1"/>
+          </svg>
+          <div style="text-align: center;">
+            <div style="font-size: 14px; font-weight: 600; color: #16a34a;">MongoDB</div>
+            <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #16a34a; margin-top: 3px;">documents · ODM</div>
+          </div>
+        </div>
+
+        <!-- AI cloud -->
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 18px; border: 1px solid rgba(59,130,246,0.32); border-radius: 9px; background: rgba(59,130,246,0.05);">
+          <svg width="78" height="64" viewBox="0 0 78 64" fill="none">
+            <path d="M20 50 C9 50 4 43 8 36 C5 28 14 22 22 26 C24 16 38 14 43 23 C52 18 64 24 62 34 C72 35 74 48 63 50 Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(59,130,246,0.08)" stroke-linejoin="round"/>
+            <circle cx="29" cy="38" r="2" fill="#2563eb"/><circle cx="42" cy="34" r="2" fill="#2563eb"/><circle cx="52" cy="40" r="2" fill="#2563eb"/>
+            <line x1="29" y1="38" x2="42" y2="34" stroke="#2563eb" stroke-width="0.8"/><line x1="42" y1="34" x2="52" y2="40" stroke="#2563eb" stroke-width="0.8"/>
+          </svg>
+          <div style="text-align: center;">
+            <div style="font-size: 14px; font-weight: 600; color: #2563eb;">DeepSeek + Gemini</div>
+            <div style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #2563eb; margin-top: 3px;">LLM APIs · failover</div>
+          </div>
+        </div>
+
+        <!-- Judge0 -->
+        <div style="padding: 16px; border: 1px solid rgba(245,158,11,0.4); border-radius: 9px; background: rgba(245,158,11,0.05);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <span style="font-size: 14px; font-weight: 600; color: #d97706;">Judge0 CE</span>
+            <span style="font-family: 'Geist Mono', monospace; font-size: 10px; color: #b45309; border: 1px solid rgba(245,158,11,0.3); border-radius: 3px; padding: 1px 5px;">sandbox</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 7px;">
+            <span style="padding: 6px 8px; border: 1px solid rgba(245,158,11,0.3); border-radius: 5px; color: #b45309; font-size: 11px; text-align: center;">server</span>
+            <span style="padding: 6px 8px; border: 1px solid rgba(245,158,11,0.3); border-radius: 5px; color: #b45309; font-size: 11px; text-align: center;">4 workers</span>
+            <span style="padding: 6px 8px; border: 1px solid rgba(245,158,11,0.3); border-radius: 5px; color: #b45309; font-size: 11px; text-align: center; font-family: 'Geist Mono', monospace;">Postgres</span>
+            <span style="padding: 6px 8px; border: 1px solid rgba(245,158,11,0.3); border-radius: 5px; color: #b45309; font-size: 11px; text-align: center; font-family: 'Geist Mono', monospace;">Redis</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- figure footer -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 26px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 2.1 — The Four-Layer Architecture</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 980}}"></script>
+</body>
+</html>

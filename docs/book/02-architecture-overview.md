@@ -9,24 +9,8 @@ box; here we draw the whole map.
 SigmaLoop is a textbook three-tier web application with one extra tier for sandboxed
 code execution.
 
-> 🎨 **FIGURE 2.1 — The four-layer architecture**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A clean, technical 4-layer system architecture diagram on a dark navy (#0a0e1a)
-> background, four stacked horizontal bands. **Top band — Client (teal #2dd4bf):** a
-> browser containing 'React 19 SPA', 'Mentor Chat', 'Monaco Editor (PROGRAMMING)',
-> 'MathLive + KaTeX (MATH)', 'JWT in localStorage'. **Second band — Edge (gray
-> #6b7280):** 'Nginx / CloudFront — static SPA, SPA routing, asset caching'. **Third
-> band — Application (indigo #7c3aed):** a Node.js + Express box showing a middleware
-> pipeline 'CORS → Body parser → Auth (JWT) → Logger', a row of route groups
-> (auth, users, chat, curriculum, courses, lessons, challenges, execution, math, mcq,
-> i18n, admin), and a services row (AI Service, Curriculum Worker, Judge0 Service,
-> Settings Service). **Bottom band — Data & External (mixed):** a green MongoDB
-> cylinder, a blue cloud 'DeepSeek + Gemini AI', and an orange 'Judge0 CE' box
-> containing server + 4 workers + Postgres + Redis. Label the arrows: Client→Edge
-> 'HTTPS / REST (JSend)', App→Mongo 'Mongoose', App→AI 'HTTPS, AIClient', App→Judge0
-> 'HTTP :2358, base64 submissions'. Rounded rectangles for services, cylinders for
-> databases, a cloud for the external AI. Linear/Vercel flat aesthetic, hairline
-> arrows in light gray (#e5e7eb)."
+![The four-layer architecture](../figures/figure-02-1.png)
+*Figure 2.1 — The four-layer architecture: a Client tier (React 19 SPA · Mentor chat · Monaco · MathLive · JWT) over an Nginx/CloudFront edge, a Node + Express application tier (middleware → route groups → services), and a data & external tier — MongoDB, the DeepSeek + Gemini AI cloud, and the Judge0 CE sandbox — wired by labelled HTTPS/Mongoose/AIClient/base64 arrows.*
 
 The text version (from `architecture-diagram-spec.md`) for quick reference:
 
@@ -66,18 +50,8 @@ Almost everything in SigmaLoop is a variation on one of these three flows.
 This is the headline journey. It is **two phases**: a synchronous chat turn, then an
 asynchronous generation job.
 
-> 🎨 **FIGURE 2.2 — Mentor chat → async curriculum generation**
-> *Diagram — generate with Claude image generation.* **Prompt:**
-> "A vertical sequence/flow diagram on dark navy. Boxes top-to-bottom: (1) 'Student
-> opens /mentor, types: I want to learn linear algebra for ML'; (2) 'POST
-> /chat/threads/:id/messages'; (3) 'API runs the autonomous mentor loop (AIClient:
-> DeepSeek→Gemini)'; (4) decision diamond 'mentor emits [[ACTION: create_course]]?';
-> if yes → (5) 'Create CurriculumJob (status: PENDING), return immediately with jobId';
-> (6) dashed box labelled ASYNC 'Curriculum Worker claims job atomically'; inside it a
-> small pipeline 'generate outline (≥12 lessons) → write all lessons as STUBs →
-> materialize lesson 1 → status READY'; (7) 'Frontend polls GET /curriculum/jobs/:id
-> via useCurriculumJob (4s)'; (8) 'READY → navigate to the new course'. Use indigo for
-> API boxes, green for DB writes, a clock icon on the ASYNC block. Hairline arrows."
+![Mentor chat → async curriculum generation](../figures/figure-02-2.png)
+*Figure 2.2 — Mentor chat → async curriculum generation: a student message (`POST /chat/threads/:id/messages`) runs the autonomous mentor loop (AIClient: DeepSeek→Gemini); when the mentor emits `[[ACTION: create_course]]` it creates a `CurriculumJob` (PENDING) and returns a `jobId` immediately, while an **async** worker claims the job and runs outline ≥12 lessons → write stubs → materialize lesson 1 → READY — at which point the polling frontend (`useCurriculumJob`, 4s) navigates to the new course.*
 
 In words (the live code path, Chapter 12 & 13 give the detail):
 

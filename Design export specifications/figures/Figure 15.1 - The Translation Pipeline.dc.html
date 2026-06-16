@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 15.1 — The Translation Pipeline" style="width: 1180px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 38px 42px 28px; box-shadow: 0 40px 120px rgba(0,0,0,0.45);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 28px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 15 · Translation Pipeline</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">The Translation Pipeline</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 15.1</div>
+    </div>
+
+    <!-- LANE 1 -->
+    <div style="border: 1px solid #e5e7eb; border-left: 3px solid #6366f1; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px;">
+      <div style="font-size: 13px; font-weight: 600; color: #0f1422; margin-bottom: 14px;">Lane 1 · <span style="color:#6366f1;">UI strings</span> <span style="font-weight:400; color:#94a3b8; font-size:12px;">— cached globally</span></div>
+      <div style="display: flex; align-items: center; gap: 4px; flex-wrap: nowrap;">
+        <div style="padding:8px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fafbfc; font-family:'Geist Mono',monospace; font-size:11.5px; color:#475569;">t('Save')</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="padding:8px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fff; font-size:12px; color:#334155;">i18n registry</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="padding:8px 11px; border:1px solid rgba(99,102,241,0.3); border-radius:7px; background:#eef2ff; font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5;"><span style="color:#16a34a;">POST</span> /i18n/translate</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="padding:8px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fff; font-family:'Geist Mono',monospace; font-size:11px; color:#334155;">SHA-256 hash</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <!-- cylinder cache -->
+        <div style="display:flex; align-items:center; gap:9px; padding:7px 12px 7px 9px; border:1px solid rgba(34,197,94,0.35); border-radius:7px; background:rgba(34,197,94,0.05);">
+          <svg width="26" height="30" viewBox="0 0 26 30" fill="none" style="flex-shrink:0;"><path d="M2 6 V24 C2 27 7 29 13 29 C19 29 24 27 24 24 V6" stroke="#16a34a" stroke-width="1.3" fill="rgba(34,197,94,0.08)"/><ellipse cx="13" cy="6" rx="11" ry="4" stroke="#16a34a" stroke-width="1.3" fill="rgba(34,197,94,0.12)"/></svg>
+          <div><div style="font-size:12px; font-weight:600; color:#15803d;">UiTranslation</div><div style="font-size:10px; color:#16a34a;">global cache</div></div>
+        </div>
+        <!-- miss branch -->
+        <div style="display:flex; align-items:center; gap:4px; margin-left:8px; padding-left:12px; border-left:1px dashed #cbd5e1;">
+          <div style="font-family:'Geist Mono',monospace; font-size:10px; color:#dc2626;">miss</div>
+          <svg width="22" height="11" viewBox="0 0 22 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="16" y2="5.5" stroke="#cbd5e1" stroke-width="1.3" stroke-dasharray="3 3"/><path d="M12 2 L18 5.5 L12 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+          <div style="padding:8px 11px; border:1px solid rgba(59,130,246,0.35); border-radius:7px; background:rgba(59,130,246,0.05); font-size:11.5px; color:#2563eb;">aiClient.translateStrings <span style="color:#94a3b8;">×50</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LANE 2 -->
+    <div style="border: 1px solid #e5e7eb; border-left: 3px solid #6366f1; border-radius: 10px; padding: 16px 18px; margin-bottom: 16px;">
+      <div style="font-size: 13px; font-weight: 600; color: #0f1422; margin-bottom: 14px;">Lane 2 · <span style="color:#6366f1;">Lesson content</span> <span style="font-weight:400; color:#94a3b8; font-size:12px;">— cached per lesson + language</span></div>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <div style="padding:8px 11px; border:1px solid rgba(99,102,241,0.3); border-radius:7px; background:#eef2ff; font-family:'Geist Mono',monospace; font-size:11px; color:#4f46e5;"><span style="color:#16a34a;">POST</span> /lessons/:id/translate</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="padding:8px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fff; font-size:12px; color:#334155;">extractTranslatable <span style="font-size:10.5px; color:#94a3b8;">(branch on kind)</span></div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <div style="padding:7px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fafbfc; font-size:11.5px; color:#475569;"><span style="color:#94a3b8;">markdown →</span> translateMarkdown</div>
+          <div style="padding:7px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fafbfc; font-size:11.5px; color:#475569;"><span style="color:#94a3b8;">labels →</span> translateStrings</div>
+        </div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="display:flex; align-items:center; gap:9px; padding:7px 12px 7px 9px; border:1px solid rgba(34,197,94,0.35); border-radius:7px; background:rgba(34,197,94,0.05);">
+          <svg width="26" height="30" viewBox="0 0 26 30" fill="none" style="flex-shrink:0;"><path d="M2 6 V24 C2 27 7 29 13 29 C19 29 24 27 24 24 V6" stroke="#16a34a" stroke-width="1.3" fill="rgba(34,197,94,0.08)"/><ellipse cx="13" cy="6" rx="11" ry="4" stroke="#16a34a" stroke-width="1.3" fill="rgba(34,197,94,0.12)"/></svg>
+          <div><div style="font-size:12px; font-weight:600; color:#15803d;">LessonTranslation</div><div style="font-size:10px; color:#16a34a;">local cache</div></div>
+        </div>
+      </div>
+      <div style="font-size:11px; color:#94a3b8; margin-top:12px; padding-left:2px;">kinds: <span style="font-family:'Geist Mono',monospace; color:#7c3aed;">body</span> · <span style="font-family:'Geist Mono',monospace; color:#7c3aed;">PROGRAMMING description</span> · <span style="font-family:'Geist Mono',monospace; color:#3b82f6;">MATH problemLatex prose</span> · <span style="font-family:'Geist Mono',monospace; color:#16a34a;">MCQ prompt + options</span></div>
+    </div>
+
+    <!-- LANE 3 -->
+    <div style="border: 1px solid #e5e7eb; border-left: 3px solid #6366f1; border-radius: 10px; padding: 16px 18px; margin-bottom: 18px;">
+      <div style="font-size: 13px; font-weight: 600; color: #0f1422; margin-bottom: 14px;">Lane 3 · <span style="color:#6366f1;">Mentor</span> <span style="font-weight:400; color:#94a3b8; font-size:12px;">— dynamic, never cached</span></div>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <div style="padding:8px 11px; border:1px solid #e5e7eb; border-radius:7px; background:#fff; font-size:12px; color:#334155;">buildLanguageInstruction</div>
+        <svg width="26" height="11" viewBox="0 0 26 11" style="flex-shrink:0;"><line x1="0" y1="5.5" x2="20" y2="5.5" stroke="#cbd5e1" stroke-width="1.3"/><path d="M16 2 L22 5.5 L16 9" stroke="#cbd5e1" stroke-width="1.3" fill="none"/></svg>
+        <div style="padding:9px 14px; border:1px solid rgba(99,102,241,0.3); border-radius:7px; background:#fafbff; font-size:12px; color:#475569;">system prompt: <span style="font-style:italic;">reply in</span> <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#6366f1;">{language}</span>, <span style="font-style:italic;">keep code &amp; LaTeX verbatim</span></div>
+      </div>
+    </div>
+
+    <!-- bottom band -->
+    <div style="display:flex; gap:14px;">
+      <div style="flex:1; display:flex; align-items:center; gap:11px; border:1px solid #e5e7eb; border-radius:10px; background:#f8fafc; padding:13px 16px;">
+        <span style="font-family:'Geist Mono',monospace; font-size:11px; color:#16a34a; border:1px solid rgba(34,197,94,0.35); border-radius:5px; padding:3px 8px;">en</span>
+        <span style="font-size:12.5px; color:#475569;">English is always a <span style="font-weight:600;">no-op</span> — never cached, never sent to AI.</span>
+      </div>
+      <div style="flex:1; display:flex; align-items:center; gap:11px; border:1px solid #e5e7eb; border-radius:10px; background:#f8fafc; padding:13px 16px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex-shrink:0;"><path d="M2 5 H16 M2 5 L5 2 M2 5 L5 8 M16 13 H2 M16 13 L13 10 M16 13 L13 16" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="font-size:12.5px; color:#475569;"><span style="font-family:'Geist Mono',monospace; font-size:11px; color:#7c3aed;">&lt;html dir&gt;</span> flips layout for RTL; code &amp; math stay pinned LTR.</span>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 22px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 15.1 — The Translation Pipeline</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1280, &quot;height&quot;: 720}}"></script>
+</body>
+</html>

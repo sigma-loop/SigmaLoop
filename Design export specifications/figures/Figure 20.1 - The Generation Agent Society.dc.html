@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e8eaee; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px; font-family: 'Geist', system-ui, sans-serif;">
+  <div data-screen-label="Figure 20.1 — The Generation Agent Society" style="width: 1000px; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 16px; padding: 40px 44px 30px; box-shadow: 0 40px 120px rgba(0,0,0,0.5);">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
+      <div>
+        <div style="font-family: 'Geist Mono', monospace; font-size: 12px; letter-spacing: 2px; color: #6366f1; text-transform: uppercase;">Chapter 20 · Multi-Agent Future</div>
+        <h2 style="margin: 8px 0 0; font-size: 30px; font-weight: 600; color: #0f1422; letter-spacing: -0.5px;">The Generation Agent Society</h2>
+      </div>
+      <div style="font-family: 'Geist Mono', monospace; font-size: 12px; color: #cbd5e1;">Fig. 20.1</div>
+    </div>
+
+    <div style="position: relative; width: 820px; height: 760px; margin: 0 auto;">
+
+      <svg viewBox="0 0 820 760" width="820" height="760" style="position:absolute; inset:0; pointer-events:none;" fill="none">
+        <defs>
+          <marker id="ag-loop" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#0d9488" stroke-width="1.3" fill="none"/></marker>
+          <marker id="ag-loops" markerWidth="9" markerHeight="9" refX="2" refY="4.5" orient="auto"><path d="M7 1 L2 4.5 L7 8" stroke="#0d9488" stroke-width="1.3" fill="none"/></marker>
+          <marker id="ag-orange" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#d97706" stroke-width="1.4" fill="none"/></marker>
+          <marker id="ag-red" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto"><path d="M1 1 L6 4.5 L1 8" stroke="#ef4444" stroke-width="1.4" fill="none"/></marker>
+        </defs>
+        <!-- spokes -->
+        <g stroke="rgba(124,58,237,0.28)" stroke-width="1">
+          <line x1="410" y1="388" x2="410" y2="90"/>
+          <line x1="410" y1="388" x2="555" y2="129"/>
+          <line x1="410" y1="388" x2="661" y2="235"/>
+          <line x1="410" y1="388" x2="700" y2="380"/>
+          <line x1="410" y1="388" x2="661" y2="525"/>
+          <line x1="410" y1="388" x2="555" y2="631"/>
+          <line x1="410" y1="388" x2="410" y2="670"/>
+          <line x1="410" y1="388" x2="265" y2="631"/>
+          <line x1="410" y1="388" x2="159" y2="525"/>
+          <line x1="410" y1="388" x2="120" y2="380"/>
+          <line x1="410" y1="388" x2="159" y2="235"/>
+          <line x1="410" y1="388" x2="265" y2="129"/>
+        </g>
+        <!-- generator↔critic loops (teal) -->
+        <path d="M690 410 C720 450 705 495 672 505" stroke="#0d9488" stroke-width="1.3" marker-start="url(#ag-loops)" marker-end="url(#ag-loop)"/>
+        <path d="M548 605 C508 600 480 615 470 640" stroke="#0d9488" stroke-width="1.3" marker-start="url(#ag-loops)" marker-end="url(#ag-loop)"/>
+        <!-- verifier → Judge0 (orange) -->
+        <path d="M120 540 C90 600 75 640 95 678" stroke="#d97706" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#ag-orange)"/>
+        <!-- orchestrator → DLQ (red) -->
+        <path d="M470 400 C600 470 660 600 690 690" stroke="#ef4444" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#ag-red)"/>
+      </svg>
+
+      <!-- center: orchestrator + blackboard -->
+      <div style="position:absolute; left:330px; top:318px; width:160px; height:52px; border:1.5px solid rgba(99,102,241,0.6); border-radius:10px; background:rgba(99,102,241,0.14); display:flex; align-items:center; justify-content:center; box-shadow:0 0 24px rgba(99,102,241,0.25); z-index:3;">
+        <span style="font-size:14px; font-weight:600; color:#4338ca;">Orchestrator</span>
+      </div>
+      <div style="position:absolute; left:340px; top:400px; width:140px; display:flex; flex-direction:column; align-items:center; z-index:3;">
+        <svg width="64" height="40" viewBox="0 0 64 40" fill="none"><path d="M4 8 V32 C4 36 17 39 32 39 C47 39 60 36 60 32 V8" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.1)"/><ellipse cx="32" cy="8" rx="28" ry="6.5" stroke="#16a34a" stroke-width="1.4" fill="rgba(34,197,94,0.14)"/></svg>
+        <div style="font-size:11px; font-weight:600; color:#16a34a; margin-top:5px;">Blackboard</div>
+        <div style="font-size:9.5px; color:#16a34a;">shared course state</div>
+      </div>
+
+      <!-- agents -->
+      <div style="position:absolute; left:335px; top:68px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Needs Analyst</span></div>
+      <div style="position:absolute; left:480px; top:107px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Curriculum Architect</span></div>
+      <div style="position:absolute; left:586px; top:213px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Dependency Checker</span></div>
+      <div style="position:absolute; left:625px; top:358px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Lesson Author</span></div>
+      <div style="position:absolute; left:586px; top:503px; width:150px; min-height:44px; border:1px solid rgba(45,212,191,0.4); border-radius:9px; background:rgba(45,212,191,0.05); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#0f766e; font-weight:500;">Pedagogy Critic</span></div>
+      <div style="position:absolute; left:480px; top:609px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Problem Author</span></div>
+      <div style="position:absolute; left:335px; top:648px; width:150px; min-height:44px; border:1px solid rgba(45,212,191,0.4); border-radius:9px; background:rgba(45,212,191,0.05); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#0f766e; font-weight:500;">Distractor Critic</span></div>
+      <div style="position:absolute; left:190px; top:609px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Test-Case Engineer</span></div>
+      <div style="position:absolute; left:84px; top:503px; width:150px; min-height:44px; border:1px solid rgba(245,158,11,0.45); border-radius:9px; background:rgba(245,158,11,0.06); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#b45309; font-weight:500;">Solution Verifier</span></div>
+      <div style="position:absolute; left:45px; top:358px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Difficulty Calibrator</span></div>
+      <div style="position:absolute; left:84px; top:213px; width:150px; min-height:44px; border:1px solid rgba(45,212,191,0.4); border-radius:9px; background:rgba(45,212,191,0.05); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#0f766e; font-weight:500;">Coherence Auditor</span></div>
+      <div style="position:absolute; left:190px; top:107px; width:150px; min-height:44px; border:1px solid rgba(124,58,237,0.45); border-radius:9px; background:rgba(124,58,237,0.07); display:flex; align-items:center; justify-content:center; text-align:center; padding:6px; z-index:2;"><span style="font-size:12px; color:#4f46e5; font-weight:500;">Localization Agent</span></div>
+
+      <!-- Judge0 -->
+      <div style="position:absolute; left:30px; top:698px; width:140px; height:48px; border:1px solid rgba(245,158,11,0.5); border-radius:9px; background:rgba(245,158,11,0.08); display:flex; align-items:center; justify-content:center; z-index:2;"><span style="font-size:12.5px; font-weight:600; color:#d97706;">Judge0 Sandbox</span></div>
+      <!-- DLQ -->
+      <div style="position:absolute; left:640px; top:698px; width:160px; height:48px; border:1px solid rgba(239,68,68,0.5); border-radius:9px; background:rgba(239,68,68,0.06); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:2;"><span style="font-size:12px; font-weight:600; color:#dc2626;">Quality Escalation</span><span style="font-family:'Geist Mono',monospace; font-size:9.5px; color:#b91c1c;">dead-letter queue</span></div>
+
+      <!-- legend -->
+      <div style="position:absolute; left:0; top:0; display:flex; gap:14px; font-family:'Geist Mono',monospace; font-size:10px;">
+        <span style="display:flex; align-items:center; gap:5px; color:#0d9488;"><svg width="18" height="8"><path d="M1 4 H15 M11 1 L16 4 L11 7" stroke="#0d9488" stroke-width="1.2" fill="none"/></svg>generator↔critic</span>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding-top: 16px; border-top: 1px solid #f1f5f9;">
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1;">Figure 20.1 — The Generation Agent Society</span>
+      <span style="font-family: 'Geist Mono', monospace; font-size: 11px; color: #cbd5e1; letter-spacing: 1px;">Σ SIGMALOOP</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1100, &quot;height&quot;: 920}}"></script>
+</body>
+</html>
