@@ -72,10 +72,8 @@ and a server-side loop, **not** native function-calling. That choice exists so t
 mid-conversation failover between AI providers (DeepSeek → Gemini) can never corrupt
 the tool transcript — the subject of Chapter 13.
 
-> 📸 **FIGURE 1.1 — The mentor in action**
-> *Screenshot placeholder.* **Capture:** the `/mentor` page where the learner has asked
-> for a course and the assistant reply shows a green "actions taken" row
-> ("Started generating a new course…") with a live "Generating… → Open course" control.
+![The mentor in action](../figures/figure-01-1.png)
+*Figure 1.1 — The mentor in action.*
 
 ## 1.5 The shape of the system
 

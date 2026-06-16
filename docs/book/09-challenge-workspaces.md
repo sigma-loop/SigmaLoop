@@ -51,9 +51,8 @@ results. Results show a pass/fail header (`passed/total`, runtime, memory) and a
 collapsible card per test case (auto-expanded when failed) with Input / Expected / Your
 Output / stderr. Network or compile failures render through a synthetic `ERROR` result.
 
-> 📸 **FIGURE 9.2 — Programming workspace**
-> *Screenshot placeholder.* **Capture:** a `PROGRAMMING` challenge with Monaco on top and
-> the Output panel below showing a mix of passed and failed test-case cards.
+![Programming workspace](../figures/figure-09-2.png)
+*Figure 9.2 — Programming workspace.*
 
 ## 9.3 MathWorkspace — LaTeX without typing LaTeX
 
@@ -83,10 +82,8 @@ that emits LaTeX. It:
 It shows a blue "Equivalent form" chip when `verdict.equivalentForm` is set, and renders
 the LLM's `rationale` as markdown + KaTeX.
 
-> 📸 **FIGURE 9.3 — Math workspace**
-> *Screenshot placeholder.* **Capture:** the MathLive field with the on-screen math
-> keyboard open and the verdict panel showing a "Correct — equivalent form" result with
-> a rendered rationale.
+![Math workspace](../figures/figure-09-3.png)
+*Figure 9.3 — Math workspace.*
 
 ## 9.4 MCQWorkspace — the reveal pattern
 
@@ -107,10 +104,8 @@ submit, selected options highlight indigo. After submit, they recolor: green (co
 red (selected-but-wrong), dimmed (unselected), each with its explanation, plus a summary
 banner reading Correct / Partially correct / Incorrect.
 
-> 📸 **FIGURE 9.4 — MCQ workspace, post-submit**
-> *Screenshot placeholder.* **Capture:** an `allowMultiple` MCQ after submission, showing
-> green/red/dimmed option coloring, per-option explanations, and a "Partially correct"
-> summary.
+![MCQ workspace, post-submit](../figures/figure-09-4.png)
+*Figure 9.4 — MCQ workspace, post-submit.*
 
 ## 9.5 ChallengeTabs — many challenges, one lesson
 
@@ -120,9 +115,8 @@ kind icon (Code / Calculator / ListChecks) or a green check once completed, labe
 "Challenge {n}". Selecting a tab swaps the active workspace. The lesson is complete only
 when every tab is green.
 
-> 📸 **FIGURE 9.5 — Multi-challenge lesson**
-> *Screenshot placeholder.* **Capture:** a lesson whose `ChallengeTabs` shows three
-> challenges of mixed kinds, one already checked off.
+![Multi-challenge lesson](../figures/figure-09-5.png)
+*Figure 9.5 — Multi-challenge lesson.*
 
 ## 9.6 LessonView — the orchestrator
 

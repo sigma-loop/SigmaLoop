@@ -90,10 +90,8 @@ allPassed, maxTime, maxMemory }`. The controller turns that into a per-test-case
 and a `metrics` summary. On submit, a `ProgrammingSubmission` is stored with a
 human-readable `outputLog`, and `markLessonComplete` runs if `allPassed`.
 
-> 📸 **FIGURE 14.2 — A graded programming submission**
-> *Screenshot placeholder.* **Capture:** the Output panel after `submit`, showing the
-> pass/fail header (`passed/total`, runtime, memory) and an expanded *failed* test-case
-> card with Expected vs Your Output.
+![A graded programming submission](../figures/figure-14-2.png)
+*Figure 14.2 — A graded programming submission.*
 
 ## 14.2 Mathematics — the LLM grader
 
@@ -166,9 +164,8 @@ Because each math grade costs a model call, practice is metered:
   limit; completes the lesson on `PASSED`.
 - **`GET /math/status/:challengeId`** — `{ limit, used, remaining }`.
 
-> 📸 **FIGURE 14.3 — A math verdict**
-> *Screenshot placeholder.* **Capture:** the verdict panel showing "Correct — equivalent
-> form" with the LLM's rationale rendered as KaTeX, and the remaining-runs counter.
+![A math verdict](../figures/figure-14-3.png)
+*Figure 14.3 — A math verdict.*
 
 ## 14.3 MCQ — deterministic set-equality
 

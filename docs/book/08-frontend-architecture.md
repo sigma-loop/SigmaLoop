@@ -155,41 +155,41 @@ Each page is summarized here; the ones worth screenshotting carry a figure callo
 
 - **Home (`/`)** — the marketing landing page; no API. The hero uses the `[[logic]]`
   translation-highlight marker (Chapter 15) and CTAs into `/mentor` and `/register`.
-  > 📸 **FIGURE 8.1 — Landing page hero**. *Capture:* the `/` hero with the tagline and
-  > chat preview, language switcher visible in the navbar.
+  ![Landing page hero](../figures/figure-08-1.png)
+  *Figure 8.1 — Landing page hero.*
 - **Login / Register** — controlled forms posting to `/auth/*`, then `login()`, then
   `guestChatService.importIfPending()` (carry a guest transcript into a real thread),
   then navigate to `/mentor?thread=<id>` or `/dashboard`.
 - **Dashboard (`/dashboard`)** — `GET /users/dashboard` + the user's courses; stat cards
   (streak / XP / lessons), quick-resume, course grid.
-  > 📸 **FIGURE 8.2 — Returning-user dashboard**. *Capture:* the three stat cards and the
-  > course grid.
+  ![Returning-user dashboard](../figures/figure-08-2.png)
+  *Figure 8.2 — Returning-user dashboard.*
 - **Onboarding (`/onboarding`)** — the four-step wizard (topics → AI questions → review →
   generating). Drives `questionnaireService.getFollowUps` then `submit`, polls the job,
   navigates to the new course (Chapter 12).
-  > 📸 **FIGURE 8.3 — Onboarding wizard**. *Capture:* the topic-pick step (from
-  > `topicLibrary`) and the generating step's skeleton.
+  ![Onboarding wizard](../figures/figure-08-3.png)
+  *Figure 8.3 — Onboarding wizard.*
 - **MyCourses (`/my-courses`)** — courses + in-flight jobs (list-polled), with
   difficulty / "Generating…" / "Generation failed" badges and the amber "Learn a New
   Thing!" button → `/onboarding`.
-  > 📸 **FIGURE 8.4 — My Courses**. *Capture:* a grid with mixed course statuses and the
-  > empty state.
+  ![My Courses](../figures/figure-08-4.png)
+  *Figure 8.4 — My Courses.*
 - **CourseDetails (`/courses/:id`)** — course + syllabus; "Generate more lessons" and
   "Generate practice challenges" buttons (poll via `useCurriculumJob`); the
   PROGRESS/VIEW_ALL lock toggle; delete with `useConfirm`.
-  > 📸 **FIGURE 8.5 — Course syllabus**. *Capture:* the lesson list with status icons and
-  > the lock-mode toggle.
+  ![Course syllabus](../figures/figure-08-5.png)
+  *Figure 8.5 — Course syllabus.*
 - **LessonView (`/lessons/:id`)** — the IDE-like workspace; its own Chapter 9.
 - **Settings (`/settings`)** — seven tabs (account / security / language / learning /
   notifications / privacy / danger), all backed by `userService`; optimistic toggles,
   data export, password-confirmed account deletion.
-  > 📸 **FIGURE 8.6 — Settings**. *Capture:* the notifications/privacy toggles and the
-  > delete-account confirm modal.
+  ![Settings](../figures/figure-08-6.png)
+  *Figure 8.6 — Settings.*
 - **Admin** — `CommandCenter` (metrics dashboard), the generic Explorer
   (`ResourceList`/`ResourceDetail` over 10+ collections with a raw-JSON editor),
   `AdminSettings` (the runtime overlay UI), and `UserOverview` (a per-user 360°).
-  > 📸 **FIGURE 8.7 — Admin Command Center & Settings**. *Capture:* the metrics dashboard
-  > and the runtime Settings panel showing a secret as "configured".
+  ![Admin Command Center & Settings](../figures/figure-08-7.png)
+  *Figure 8.7 — Admin Command Center & Settings.*
 
 ## 8.7 The chat surface
 

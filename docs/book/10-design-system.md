@@ -86,10 +86,8 @@ footer), `AuthLayout` (logo + card), `LessonLayout` (`h-screen overflow-hidden`,
 only — the IDE owns the viewport), and `AdminLayout` (sidebar + scrolling main, and the
 ADMIN role guard).
 
-> 📸 **FIGURE 10.1 — The component library**
-> *Screenshot placeholder.* **Capture:** a montage of the primitives — buttons (all
-> variants), a Card, badges, an Input with an error, and the amber "Learn a New Thing!"
-> button — in both light and dark themes.
+![The component library](../figures/figure-10-1.png)
+*Figure 10.1 — The component library.*
 
 ## 10.6 Why a design system matters here
 
