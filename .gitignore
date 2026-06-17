@@ -9,6 +9,10 @@ Backend/
 # Archives
 *.zip
 
+# Graduation report deliverables (large binaries — kept locally, not in git)
+AI_Tutor_Graduation_Project_*.pdf
+AI_Tutor_Graduation_Project_*.docx
+
 # OS
 .DS_Store
 Thumbs.db
