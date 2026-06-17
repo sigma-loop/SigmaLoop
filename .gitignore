@@ -26,3 +26,6 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Production secrets (live only on the EC2 box)
+deploy/.env.prod

@@ -1,0 +1,118 @@
+# SigmaLoop — production stack for a SINGLE EC2 box (t3.small, Ubuntu 24.04).
+# Runs: Node API + MongoDB + Judge0 (server, 2 workers, postgres, redis).
+#
+# Nothing here is published to the public internet directly. Host nginx (with a
+# Let's Encrypt cert) terminates TLS on api.sigmaloop.dpdns.org and proxies to
+# the API on 127.0.0.1:4000. Mongo / Judge0 / Postgres stay on the internal
+# Docker network only.
+#
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+#
+# IMPORTANT: Judge0 requires cgroup v1 on the host — see ec2-bootstrap.sh.
+
+name: sigmaloop
+
+services:
+  api:
+    build:
+      context: ../Backend
+    env_file: .env.prod
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - DATABASE_URL=mongodb://mongo:27017/sigmaloop
+      - JUDGE0_DASHBOARD=http://judge0-server:2358
+    ports:
+      - "127.0.0.1:4000:4000" # only the host (nginx) can reach the API
+    depends_on:
+      mongo:
+        condition: service_healthy
+      judge0-server:
+        condition: service_started
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    command: ["--wiredTigerCacheSizeGB", "0.25"] # cap RAM on a 2 GB box
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  judge0-server:
+    image: judge0/judge0:1.13.1
+    privileged: true
+    cgroup: host
+    environment:
+      - REDIS_HOST=judge0-redis
+      - POSTGRES_HOST=judge0-db
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    depends_on:
+      judge0-db:
+        condition: service_healthy
+      judge0-redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  judge0-workers:
+    image: judge0/judge0:1.13.1
+    command: ["./scripts/workers"]
+    privileged: true
+    cgroup: host
+    environment:
+      - REDIS_HOST=judge0-redis
+      - POSTGRES_HOST=judge0-db
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - COUNT=2 # fewer workers = less RAM on a small box
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    depends_on:
+      judge0-db:
+        condition: service_healthy
+      judge0-redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  judge0-db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=judge0
+      - POSTGRES_USER=judge0
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - judge0_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U judge0"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  judge0-redis:
+    image: redis:6-alpine
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    volumes:
+      - judge0_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  judge0_pg:
+  judge0_redis:

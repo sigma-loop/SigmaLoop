@@ -1,0 +1,49 @@
+name: Deploy infra (compose / Judge0)
+
+# Fires only when the deploy stack itself changes (docker-compose.prod.yml,
+# nginx, env template). SSHes to the box, pulls the root repo, and runs
+# `docker compose up -d` — which recreates ONLY the services whose image or
+# config changed. So bumping the Judge0 image or worker COUNT restarts Judge0;
+# unrelated edits leave it running.
+#
+# Required Secrets (Settings → Secrets and variables → Actions):
+#   EC2_HOST, EC2_USER, EC2_SSH_KEY   (same box/key as the Backend repo)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "deploy/**"
+      - ".github/workflows/deploy-infra.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-infra
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          ssh -i ~/.ssh/id_deploy "$EC2_USER@$EC2_HOST" 'bash -seuo pipefail' <<'REMOTE'
+            cd ~/SigmaLoop
+            git pull --ff-only
+            cd ~/SigmaLoop/deploy
+            docker compose -f docker-compose.prod.yml --env-file .env.prod up -d --build
+            docker image prune -f
+            docker compose -f docker-compose.prod.yml --env-file .env.prod ps
+          REMOTE
